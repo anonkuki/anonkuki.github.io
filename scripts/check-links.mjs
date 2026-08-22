@@ -1,0 +1,37 @@
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
+
+const snapshot = JSON.parse(await readFile(path.join(process.cwd(), 'src', 'content', 'github-snapshot.json'), 'utf8'))
+const localBase = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4174'
+const urls = new Set([
+  localBase,
+  `${localBase}/resume/lenggujian-resume-zh.pdf`,
+  `${localBase}/resume/lenggujian-resume-en.pdf`,
+  `${localBase}/robots.txt`,
+  'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/',
+  'https://anonkuki.github.io/my-anime-rank/',
+])
+
+const failures = []
+for (const item of snapshot.repositories) {
+  const expected = `https://github.com/anonkuki/${item.repo}`
+  if (item.url !== expected || !item.verifiedAt) failures.push(`${expected} -> invalid build-time API snapshot`)
+  else console.log(`SNAPSHOT ${item.verifiedAt} ${item.url}`)
+}
+if (snapshot.repositories.length !== 6) failures.push('https://github.com/anonkuki -> incomplete repository snapshot')
+else console.log('SNAPSHOT profile confirmed through six repository API responses')
+for (const url of urls) {
+  try {
+    const response = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15_000), headers: { 'User-Agent': 'lenggujian-portfolio-link-check' } })
+    if (!response.ok) failures.push(`${url} -> ${response.status}`)
+    else console.log(`OK ${response.status} ${url}`)
+  } catch (error) {
+    failures.push(`${url} -> ${error instanceof Error ? error.message : 'request failed'}`)
+  }
+}
+
+if (failures.length) {
+  console.error(`Broken links (${failures.length}):\n${failures.join('\n')}`)
+  process.exit(1)
+}
+console.log(`Checked ${urls.size} live links and ${snapshot.repositories.length} GitHub API-snapshot links.`)

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "auditedAt": "2026-08-23",
+  "candidateCount": 82,
+  "mappedProjectCount": 62,
+  "excludedCount": 20,
+  "groupCounts": {
+    "agent-docs": 32,
+    "data-gis": 10,
+    "cross-offline": 1,
+    "science-visual": 10,
+    "qa-delivery": 5,
+    "enterprise": 4
+  },
+  "guarantees": {
+    "everyCandidateHasDisposition": true,
+    "everyMappedProjectHasGroup": true,
+    "countsReconcile": true
+  }
+}

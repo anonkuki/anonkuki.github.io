@@ -1,0 +1,55 @@
+import { Languages, Menu, X } from 'lucide-react'
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLanguage } from '../i18n/LanguageContext'
+
+const nav = [
+  { id: 'work', zh: '作品', en: 'Work' },
+  { id: 'atlas', zh: '能力图谱', en: 'Atlas' },
+  { id: 'experience', zh: '经历', en: 'Experience' },
+  { id: 'contact', zh: '联系', en: 'Contact' },
+]
+
+export function SiteHeader() {
+  const { language, setLanguage } = useLanguage()
+  const [open, setOpen] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  function goTo(id: string) {
+    setOpen(false)
+    if (location.pathname !== '/') {
+      navigate('/')
+      window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 0)
+      return
+    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  return (
+    <header className="site-header">
+      <div className="header-inner">
+        <Link className="brand" to="/" aria-label="lenggujian home">
+          <span className="brand-dot" />lenggujian
+        </Link>
+        <nav className={open ? 'main-nav is-open' : 'main-nav'} aria-label={language === 'zh' ? '主导航' : 'Main navigation'}>
+          {nav.map((item) => <button key={item.id} type="button" onClick={() => goTo(item.id)}>{item[language]}</button>)}
+        </nav>
+        <div className="header-actions">
+          <button
+            className="language-switch"
+            type="button"
+            aria-label={language === 'zh' ? 'Switch to English' : '切换到中文'}
+            onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
+          >
+            <Languages size={16} />
+            <span>{language === 'zh' ? 'EN' : '中文'}</span>
+          </button>
+          <button className="menu-toggle" type="button" aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen((value) => !value)}>
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
+      </div>
+    </header>
+  )
+}
