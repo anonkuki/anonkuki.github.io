@@ -9,22 +9,38 @@ export function CasePage() {
   const { language, text } = useLanguage()
   const item = featuredCases.find((candidate) => candidate.slug === slug) ?? featuredCases[0]
   const zh = language === 'zh'
+  const question = item.demo === 'tender'
+    ? (zh ? '如果一份复杂投标文档，能够自己追踪证据呢？' : 'What if a complex tender could trace its own evidence?')
+    : item.demo === 'regulated'
+      ? (zh ? '如果每个结论，都能沿证据链回到来源呢？' : 'What if every conclusion could travel back to its source?')
+      : (zh ? '如果现场断网，协作仍然可以继续呢？' : 'What if field collaboration continued while offline?')
 
   return (
     <main id="main-content" className={`case-page case-${item.accent}`}>
       <section className="case-hero section-pad">
         <Link className="back-link" to="/"><ArrowLeft size={17} />{zh ? '返回作品集' : 'Back to portfolio'}</Link>
-        <div className="case-hero-grid">
-          <div>
+        <div className="case-reference-board">
+          <div className="case-media-stack" aria-hidden="true">
+            <figure className="case-polaroid case-polaroid-primary">
+              <div className="case-blueprint"><span className="blueprint-node b1" /><span className="blueprint-node b2" /><span className="blueprint-node b3" /><i /><b>{item.index}</b></div>
+              <figcaption>ARCHITECTURE MAP <span>{item.index}</span></figcaption>
+            </figure>
+            <figure className="case-polaroid case-polaroid-secondary">
+              <div className={`case-proof-sheet proof-${item.demo}`}><strong>{item.demo === 'tender' ? 'INPUT → EVIDENCE → DOCX' : item.demo === 'regulated' ? 'RULE → SOURCE → REVIEW' : 'APP ⇄ QUEUE ⇄ WEB'}</strong>{item.stack.slice(0, 4).map((tag, index) => <span style={{ '--line': index + 1 } as React.CSSProperties} key={tag}>{tag}</span>)}</div>
+              <figcaption>VERIFICATION PREVIEW <span>02</span></figcaption>
+            </figure>
+          </div>
+          <div className="case-story-copy">
             <p className="eyebrow">CASE {item.index} · {text(item.eyebrow)}</p>
             <h1>{text(item.title)}</h1>
+            <p className="case-question">{question}</p>
             <p className="case-lead">{text(item.summary)}</p>
             <div className="tag-row">{item.stack.map((tag) => <span key={tag}>{tag}</span>)}</div>
+            <div className="metric-grid">
+              {item.metrics.map((metric) => <div className="metric-card" key={metric.value}><b>{metric.value}</b><span>{text(metric.label)}</span><small>{text(metric.evidence)}</small></div>)}
+            </div>
           </div>
-          <div className="case-blueprint" aria-hidden="true"><span className="blueprint-node b1" /><span className="blueprint-node b2" /><span className="blueprint-node b3" /><i /><b>{item.index}</b></div>
-        </div>
-        <div className="metric-grid">
-          {item.metrics.map((metric) => <div className="metric-card" key={metric.value}><b>{metric.value}</b><span>{text(metric.label)}</span><small>{text(metric.evidence)}</small></div>)}
+          <div className="case-board-doodles" aria-hidden="true"><span>↘</span><i>trace<br />the work</i><b>⌁</b></div>
         </div>
       </section>
 

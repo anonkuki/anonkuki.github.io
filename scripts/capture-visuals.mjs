@@ -25,10 +25,11 @@ for (const profile of profiles) {
     await page.evaluate(async () => {
       for (let top = 0; top < document.documentElement.scrollHeight; top += window.innerHeight * 0.8) {
         window.scrollTo({ top, behavior: 'instant' })
-        await new Promise((resolve) => window.setTimeout(resolve, 40))
+        await new Promise((resolve) => window.setTimeout(resolve, 90))
       }
       window.scrollTo({ top: 0, behavior: 'instant' })
     })
+    await page.waitForTimeout(250)
     await page.screenshot({ path: path.join(output, 'desktop-full-page.png'), fullPage: true })
     await page.locator('.open-section').scrollIntoViewIfNeeded()
     await page.locator('.open-section img').evaluateAll(async (images) => Promise.all(images.map(async (image) => { if (!image.complete) await new Promise((resolve) => image.addEventListener('load', resolve, { once: true })); await image.decode().catch(() => {}) })))
@@ -47,5 +48,20 @@ for (const profile of profiles) {
   }
   await context.close()
 }
+
+const caseContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 })
+const casePage = await caseContext.newPage()
+await casePage.goto(`${baseURL}/#/work/tender-agent-harness`, { waitUntil: 'networkidle' })
+await casePage.locator('.intro-overlay').waitFor({ state: 'detached', timeout: 3_000 }).catch(() => {})
+await casePage.locator('.case-reference-board').screenshot({ path: path.join(output, 'case-board-desktop.png') })
+await casePage.screenshot({ path: path.join(output, 'case-full-page.png'), fullPage: true })
+await caseContext.close()
+
+const caseMobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, deviceScaleFactor: 1 })
+const caseMobilePage = await caseMobileContext.newPage()
+await caseMobilePage.goto(`${baseURL}/#/work/tender-agent-harness`, { waitUntil: 'networkidle' })
+await caseMobilePage.locator('.intro-overlay').waitFor({ state: 'detached', timeout: 3_000 }).catch(() => {})
+await caseMobilePage.locator('.case-reference-board').screenshot({ path: path.join(output, 'case-board-mobile.png') })
+await caseMobileContext.close()
 await browser.close()
-console.log(`Captured ${profiles.length + 4} visual QA screenshots in ${output}`)
+console.log(`Captured ${profiles.length + 7} visual QA screenshots in ${output}`)

@@ -4,6 +4,8 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('把复杂行业流程')
   await expect(page.getByTestId('public-project')).toHaveCount(4)
+  await expect(page.locator('.scrapbook-stage')).toHaveCount(1)
+  await expect(page.locator('.project-polaroid')).toHaveCount(4)
   await expect(page.getByText('多邻班 · AI 校园题库共创平台')).toBeVisible()
   await expect(page.getByText('佐佑动漫社 · 双站作品集')).toBeVisible()
   for (const card of await page.getByTestId('public-project').all()) await card.scrollIntoViewIfNeeded()
@@ -27,6 +29,8 @@ test('all flagship routes load and the tender demo completes deterministically',
   for (const slug of slugs) {
     await page.goto(`/#/work/${slug}`)
     await expect(page.getByLabel(/交互式虚拟演示|Interactive synthetic demo/)).toBeVisible()
+    await expect(page.locator('.case-reference-board')).toBeVisible()
+    await expect(page.locator('.case-polaroid')).toHaveCount(2)
   }
 
   await page.goto('/#/work/tender-agent-harness')
@@ -38,6 +42,21 @@ test('all flagship routes load and the tender demo completes deterministically',
   await expect(page.getByText('可交付', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: '重置' }).click()
   await expect(page.getByText('等待运行', { exact: true })).toBeVisible()
+})
+
+test('all three collage case entries remain clickable above overlapping sheets', async ({ page }) => {
+  const entries = [
+    ['投标文档 Agent Harness - 查看案例', '#/work/tender-agent-harness'],
+    ['受监管报告智能体 - 查看案例', '#/work/regulated-report-agent'],
+    ['跨端现场信息协同平台 - 查看案例', '#/work/cross-platform-field-suite'],
+  ]
+  for (const [name, route] of entries) {
+    await page.goto('/')
+    const entry = page.getByRole('link', { name, exact: true })
+    await entry.scrollIntoViewIfNeeded()
+    await entry.click()
+    await expect(page).toHaveURL(new RegExp(`${route}$`))
+  }
 })
 
 test('mobile menu opens and reaches the atlas section', async ({ page }, testInfo) => {

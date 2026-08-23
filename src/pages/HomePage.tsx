@@ -57,9 +57,10 @@ export function HomePage() {
 
       <section className="work-section section-pad" id="work">
         <SectionHeading index="01" eyebrow={zh ? 'SELECTED WORK' : 'SELECTED WORK'} title={zh ? '三个复杂系统，三种可靠性答案' : 'Three complex systems, three reliability answers'} />
-        <div className="featured-list">
+        <div className="featured-list featured-collage">
+          <div className="featured-board-notes" aria-hidden="true"><span>systems / proof / delivery</span><i>↘</i><b>03 selected cases</b></div>
           {featuredCases.map((item, index) => (
-            <article className={`featured-card reveal accent-${item.accent}`} key={item.slug}>
+            <article className={`featured-card featured-polaroid reveal accent-${item.accent}`} key={item.slug}>
               <div className="case-number">{item.index}</div>
               <div className="case-copy">
                 <p className="eyebrow">{text(item.eyebrow)}</p>
@@ -86,9 +87,12 @@ export function HomePage() {
           title={zh ? '公开代码，也展示完整作品' : 'Open code, complete work'}
           action={<a className="text-link" href="https://github.com/anonkuki" target="_blank" rel="noreferrer"><Code2 size={18} />GitHub<ExternalLink size={14} /></a>}
         />
-        <div className="masonry-grid">
+        <div className="masonry-grid scrapbook-stage">
+          <div className="scrapbook-doodles" aria-hidden="true">
+            <span className="doodle-loop">⌁</span><span className="doodle-arrow">↳</span><span className="doodle-note">code<br />story<br />systems</span><span className="doodle-star">✦</span>
+          </div>
           {publicProjects.map((project, index) => (
-            <article className={`public-card reveal card-${index + 1}`} data-testid="public-project" key={project.repo}>
+            <article className={`public-card project-polaroid reveal card-${index + 1}`} data-testid="public-project" key={project.repo}>
               <ProjectVisual project={project} language={language} />
               <div className="public-card-copy">
                 <span className="repo-meta">{project.language} · {project.visibility === 'local' ? (zh ? '本地完整项目' : 'complete local project') : `${String(project.repositories.length).padStart(2, '0')} ${zh ? '个仓库' : project.repositories.length === 1 ? 'repository' : 'repositories'}`}</span>
