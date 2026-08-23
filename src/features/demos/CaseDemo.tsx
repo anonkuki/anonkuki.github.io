@@ -1,14 +1,15 @@
 import { Check, CircleAlert, Play, RotateCcw, StepForward } from 'lucide-react'
 import { useReducer, useState } from 'react'
 import type { Language } from '../../content/types'
+import type { CaseStudy } from '../../content/types'
 import { initialDemoState, reduceDemo, type DemoDefinition } from './demo-machine'
 
-type DemoKind = 'tender' | 'regulated' | 'field'
+type DemoKind = CaseStudy['demo']
 
 const definitions: Record<DemoKind, DemoDefinition> = {
   tender: { stages: ['parse', 'structure', 'retrieve', 'compose', 'diagram', 'review', 'deliver'], failureStage: 'review' },
   regulated: { stages: ['ingest', 'precheck', 'confirm', 'template', 'lineage', 'audit'], failureStage: 'template' },
-  field: { stages: ['capture', 'local', 'queue', 'sync', 'dashboard'], failureStage: 'sync' },
+  writing: { stages: ['brief', 'outline', 'retrieve', 'draft', 'review', 'export'], failureStage: 'review' },
 }
 const labels: Record<DemoKind, Record<string, { zh: string; en: string }>> = {
   tender: {
@@ -19,9 +20,9 @@ const labels: Record<DemoKind, Record<string, { zh: string; en: string }>> = {
     ingest: { zh: '读取虚拟 Excel', en: 'Read synthetic Excel' }, precheck: { zh: '确定性预检', en: 'Deterministic precheck' }, confirm: { zh: '人工确认', en: 'Human confirmation' },
     template: { zh: '模板组装', en: 'Assemble template' }, lineage: { zh: '来源绑定', en: 'Bind lineage' }, audit: { zh: '证据审核', en: 'Evidence review' },
   },
-  field: {
-    capture: { zh: '移动采集', en: 'Mobile capture' }, local: { zh: 'Room 本地写入', en: 'Room local write' }, queue: { zh: '上传队列', en: 'Upload queue' },
-    sync: { zh: '弱网同步', en: 'Weak-network sync' }, dashboard: { zh: 'Web 态势视图', en: 'Web dashboard' },
+  writing: {
+    brief: { zh: '明确写作目标', en: 'Define the brief' }, outline: { zh: '生成结构大纲', en: 'Build the outline' }, retrieve: { zh: '检索参考资料', en: 'Retrieve sources' },
+    draft: { zh: '分章生成', en: 'Draft chapters' }, review: { zh: '一致性检查', en: 'Check consistency' }, export: { zh: '整理导出', en: 'Prepare export' },
   },
 }
 
@@ -84,11 +85,11 @@ function DemoPreview({ kind, language, status, completed }: { kind: DemoKind; la
       <div className="lineage-chip">↳ Sheet 1 · C12 · SHA-256</div>
     </div>
   )
-  if (kind === 'field') return (
-    <div className="demo-preview field-preview">
-      <div className="phone-mini"><span className="phone-notch" /><b>{language === 'zh' ? '现场采集' : 'Field capture'}</b><i /><i /><em>{completed > 1 ? 'queued ✓' : 'local'}</em></div>
-      <div className="sync-pulse"><span>{status === 'failed' ? '×' : '↗'}</span></div>
-      <div className="dashboard-mini"><b>LIVE / MAP</b><div className="map-grid"><i /><i /><i /></div><small>{completed} events synced</small></div>
+  if (kind === 'writing') return (
+    <div className="demo-preview writing-preview">
+      <div className="writing-outline"><b>{language === 'zh' ? '项目大纲' : 'Project outline'}</b><span>01 / SETUP</span><span>02 / CONFLICT</span><span>03 / RESOLUTION</span></div>
+      <div className="writing-draft"><b>{status === 'failed' ? 'REVIEW' : 'DRAFT'}</b><i /><i /><i /><small>{completed}/6 stages</small></div>
+      <div className="writing-source">RAG · 03 SOURCES</div>
     </div>
   )
   return (

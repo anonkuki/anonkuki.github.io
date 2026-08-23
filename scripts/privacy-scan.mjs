@@ -20,6 +20,7 @@ const patterns = [
   { kind: 'local-windows-path', regex: /\b[A-Za-z]:[\\/][^\s"'<>)]*/gi },
 ]
 const approvedPublicTitles = new Set(['duolinban-campus', 'duolinban'])
+const approvedPublicPhones = new Set(['17808200776'])
 // Each hash binds an image that has been manually reviewed for visible content and metadata.
 // Re-exporting, replacing, or adding public media must trigger a fresh review and hash update.
 const approvedPublicMediaSha256 = new Map([
@@ -85,8 +86,11 @@ for (const root of roots) {
 
     for (const { kind, regex } of patterns) {
       if (kind === 'mainland-phone' && isApprovedResume(file)) continue
+      const scanContent = kind === 'mainland-phone'
+        ? [...approvedPublicPhones].reduce((value, phone) => value.replaceAll(phone, '[approved-public-phone]'), content)
+        : content
       regex.lastIndex = 0
-      if (regex.test(content)) findings.push({ file, kind })
+      if (regex.test(scanContent)) findings.push({ file, kind })
     }
     const shouldScanPrivateTitles = ['src', 'public', 'dist', 'README.md', 'PUBLICATION_MANIFEST.md'].includes(root)
     const lowered = content.toLowerCase()

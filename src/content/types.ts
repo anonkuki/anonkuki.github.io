@@ -25,7 +25,7 @@ export interface CaseStudy {
   performance: LocalizedText
   stack: string[]
   metrics: EvidenceMetric[]
-  demo: 'tender' | 'regulated' | 'field'
+  demo: 'tender' | 'regulated' | 'writing'
   accent: 'blue' | 'cyan' | 'ink'
 }
 

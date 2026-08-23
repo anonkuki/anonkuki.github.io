@@ -18,7 +18,13 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
   for (const cover of await covers.all()) await expect.poll(() => cover.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   await expect(page.getByText(/★/)).toHaveCount(0)
   await expect(page.getByRole('link', { name: /在线演示/ })).toHaveCount(1)
-  await expect(page.getByRole('link', { name: /gujianleng@gmail.com/ })).toHaveAttribute('href', 'mailto:gujianleng@gmail.com')
+  const emailCopy = page.getByRole('button', { name: '复制邮箱 gujianleng@gmail.com' })
+  await expect(emailCopy).toBeVisible()
+  await emailCopy.click()
+  await expect(page.getByText('邮箱已复制')).toBeVisible()
+  await expect(page.getByRole('button', { name: '复制电话 17808200776' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '复制微信 ace123456787' })).toBeVisible()
+  await expect(page.locator('.scroll-companion')).toHaveCount(0)
 
   const zhResume = page.getByRole('link', { name: /下载简历/ })
   await expect(zhResume).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
@@ -30,7 +36,7 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
 })
 
 test('all flagship routes load and the tender demo completes deterministically', async ({ page }) => {
-  const slugs = ['tender-agent-harness', 'regulated-report-agent', 'cross-platform-field-suite']
+  const slugs = ['tender-agent-harness', 'regulated-report-agent', 'ai-copilot-writing-platform']
   for (const slug of slugs) {
     await page.goto(`/#/work/${slug}`)
     await expect(page.getByLabel(/交互式虚拟演示|Interactive synthetic demo/)).toBeVisible()
@@ -53,7 +59,7 @@ test('all three collage case entries remain clickable above overlapping sheets',
   const entries = [
     ['投标文档 Agent Harness - 查看案例', '#/work/tender-agent-harness'],
     ['受监管报告智能体 - 查看案例', '#/work/regulated-report-agent'],
-    ['跨端现场信息协同平台 - 查看案例', '#/work/cross-platform-field-suite'],
+    ['AI Copilot 智能写作平台 - 查看案例', '#/work/ai-copilot-writing-platform'],
   ]
   for (const [name, route] of entries) {
     await page.goto('/')

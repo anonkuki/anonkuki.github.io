@@ -1,19 +1,30 @@
-import { ArrowDownRight, ArrowRight, Code2, ExternalLink, Mail, Sparkles } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { ArrowDownRight, ArrowRight, Check, Code2, Copy, ExternalLink, Mail, MessageCircle, Phone, Sparkles } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CapabilityConstellation } from '../components/CapabilityConstellation'
 import { CaseBlueprint } from '../components/CaseBlueprint'
 import { HeroArtwork } from '../components/HeroArtwork'
 import { ProjectVisual } from '../components/ProjectVisual'
-import { ScrollCompanion } from '../components/ScrollCompanion'
 import { SectionHeading } from '../components/SectionHeading'
-import { capabilityGroups, featuredCases, publicProjects } from '../content/projects'
+import { capabilityGroups, featuredCases, publicProjects, qingyanSubproject } from '../content/projects'
 import { useLanguage } from '../i18n/LanguageContext'
+import { copyText } from '../utils/copyText'
 
 export function HomePage() {
   const { language, text } = useLanguage()
   const mainRef = useRef<HTMLElement>(null)
+  const [copiedContact, setCopiedContact] = useState<string | null>(null)
   const zh = language === 'zh'
+  const contacts = [
+    { id: 'email', label: zh ? '邮箱' : 'Email', value: 'gujianleng@gmail.com', icon: Mail },
+    { id: 'phone', label: zh ? '电话' : 'Phone', value: '17808200776', icon: Phone },
+    { id: 'wechat', label: zh ? '微信' : 'WeChat', value: 'ace123456787', icon: MessageCircle },
+  ]
+
+  const copyContact = async (id: string, value: string) => {
+    await copyText(value)
+    setCopiedContact(id)
+  }
 
   useEffect(() => {
     if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -35,7 +46,6 @@ export function HomePage() {
 
   return (
     <main id="main-content" ref={mainRef}>
-      <ScrollCompanion />
       <section className="hero section-pad">
         <div className="hero-copy">
           <div className="role-chips">
@@ -122,7 +132,7 @@ export function HomePage() {
         <SectionHeading index="04" eyebrow="EXPERIENCE" title={zh ? '从原型，到可验证的系统' : 'From prototypes to verifiable systems'} />
         <div className="timeline">
           <article className="timeline-item reveal"><time>{zh ? '2026.07 — 至今' : 'JUL 2026 — PRESENT'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京科兴 · AI 全栈应用开发实习' : 'Sinovac · AI Full-stack Engineering Intern'}</h3><p>{zh ? '参与并独立开发受监管报告智能体，聚焦确定性数据链、Word 模板工程、规则审核与来源追溯。' : 'Building regulated-report agents around deterministic data, Word template engineering, rule-based review, and provenance.'}</p></div></article>
-          <article className="timeline-item reveal"><time>{zh ? '2026.03 — 2026.06' : 'MAR 2026 — JUN 2026'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京清研灵智 · AI 全栈开发实习' : 'Qingyan Lingzhi · AI Full-stack Engineering Intern'}</h3><p>{zh ? '负责投标文档 Agent Harness，并持续交付多类业务原型、案例系统与前端验收。' : 'Led a tender-document Agent Harness and delivered business prototypes, case systems, and front-end acceptance work.'}</p></div></article>
+          <article className="timeline-item reveal"><time>{zh ? '2026.03 — 2026.06' : 'MAR 2026 — JUN 2026'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京清研灵智 · AI 全栈开发实习' : 'Qingyan Lingzhi · AI Full-stack Engineering Intern'}</h3><p>{zh ? '负责投标文档 Agent Harness，并持续交付多类业务原型、案例系统与前端验收。' : 'Led a tender-document Agent Harness and delivered business prototypes, case systems, and front-end acceptance work.'}</p><aside className="experience-subproject"><header><span>{text(qingyanSubproject.label)}</span><b>OTHER DELIVERY</b></header><h4>{text(qingyanSubproject.title)}</h4><p>{text(qingyanSubproject.summary)}</p><div className="tag-row">{qingyanSubproject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></aside></div></article>
           <article className="timeline-item reveal"><time>2023.09 — 2027.06</time><div><span className="timeline-pin" /><h3>{zh ? '北京交通大学 · 人工智能' : 'Beijing Jiaotong University · Artificial Intelligence'}</h3><p>{zh ? '计算机科学与技术学院；计算机设计大赛北京市三等奖、京彩大创 OPC 大赛北京市一等奖。' : 'School of Computer Science and Technology; Beijing awards in computer design and OPC innovation competitions.'}</p></div></article>
         </div>
       </section>
@@ -144,11 +154,14 @@ export function HomePage() {
 
       <footer className="contact-section section-pad" id="contact">
         <div className="contact-doodle" aria-hidden="true"><Sparkles /><span>let's build<br />something<br />reliable</span></div>
-        <p className="eyebrow">{zh ? '2027届 · 寻找 AI 全栈 / Agent 工程机会' : 'CLASS OF 2027 · OPEN TO AI FULL-STACK / AGENT ROLES'}</p>
-        <h2>{zh ? '如果你在寻找能把 AI 从想法做到落地的人，我们聊聊。' : 'Looking for someone who can take AI from idea to delivery? Let’s talk.'}</h2>
+        <p className="eyebrow">{zh ? '求职方向：AI工程应用开发/agent开发' : 'TARGET ROLES: AI APPLICATION ENGINEERING / AGENT DEVELOPMENT'}</p>
+        <h2>{zh ? '期待与你共事。' : 'Let’s work together.'}</h2>
         <div className="contact-actions">
-          <a className="button primary" href="mailto:gujianleng@gmail.com"><Mail size={18} />gujianleng@gmail.com</a>
-          <a className="button ghost" href="https://github.com/anonkuki" target="_blank" rel="noreferrer"><Code2 size={18} />github.com/anonkuki</a>
+          {contacts.map(({ id, label, value, icon: Icon }) => {
+            const copied = copiedContact === id
+            return <button className={`contact-card ${copied ? 'is-copied' : ''}`} type="button" aria-label={`${zh ? '复制' : 'Copy'}${label} ${value}`} onClick={() => void copyContact(id, value)} key={id}><Icon /><span>{label}</span><strong>{value}</strong><small>{copied ? `${label}${zh ? '已复制' : ' copied'}` : (zh ? '点击复制' : 'Click to copy')}</small>{copied ? <Check className="contact-copy-icon" /> : <Copy className="contact-copy-icon" />}</button>
+          })}
+          <a className="contact-card contact-github" href="https://github.com/anonkuki" target="_blank" rel="noreferrer" aria-label="GitHub github.com/anonkuki"><Code2 /><span>GitHub</span><strong>github.com/anonkuki</strong><small>{zh ? '查看公开仓库' : 'View public repositories'}</small><ExternalLink className="contact-copy-icon" /></a>
         </div>
         <button className="back-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>↑ {zh ? '回到顶部' : 'Back to top'}</button>
         <div className="footer-line"><span>lenggujian © 2026</span><span>{zh ? '用确定性工程约束不确定性' : 'Engineering certainty around model uncertainty'}</span></div>

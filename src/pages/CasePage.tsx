@@ -13,7 +13,7 @@ export function CasePage() {
     ? (zh ? '如果一份复杂投标文档，能够自己追踪证据呢？' : 'What if a complex tender could trace its own evidence?')
     : item.demo === 'regulated'
       ? (zh ? '如果每个结论，都能沿证据链回到来源呢？' : 'What if every conclusion could travel back to its source?')
-      : (zh ? '如果现场断网，协作仍然可以继续呢？' : 'What if field collaboration continued while offline?')
+      : (zh ? '如果长篇写作，也能像软件工程一样被编排和检查呢？' : 'What if long-form writing could be orchestrated and reviewed like software?')
 
   return (
     <main id="main-content" className={`case-page case-${item.accent}`}>
@@ -26,7 +26,7 @@ export function CasePage() {
               <figcaption>ARCHITECTURE MAP <span>{item.index}</span></figcaption>
             </figure>
             <figure className="case-polaroid case-polaroid-secondary">
-              <div className={`case-proof-sheet proof-${item.demo}`}><strong>{item.demo === 'tender' ? 'INPUT → EVIDENCE → DOCX' : item.demo === 'regulated' ? 'RULE → SOURCE → REVIEW' : 'APP ⇄ QUEUE ⇄ WEB'}</strong>{item.stack.slice(0, 4).map((tag, index) => <span style={{ '--line': index + 1 } as React.CSSProperties} key={tag}>{tag}</span>)}</div>
+              <div className={`case-proof-sheet proof-${item.demo}`}><strong>{item.demo === 'tender' ? 'INPUT → EVIDENCE → DOCX' : item.demo === 'regulated' ? 'RULE → SOURCE → REVIEW' : 'OUTLINE → RAG → DRAFT'}</strong>{item.stack.slice(0, 4).map((tag, index) => <span style={{ '--line': index + 1 } as React.CSSProperties} key={tag}>{tag}</span>)}</div>
               <figcaption>VERIFICATION PREVIEW <span>02</span></figcaption>
             </figure>
           </div>

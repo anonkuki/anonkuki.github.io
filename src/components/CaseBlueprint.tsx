@@ -2,7 +2,7 @@ import type { CaseStudy } from '../content/types'
 import type { CSSProperties } from 'react'
 
 export function CaseBlueprint({ demo }: { demo: CaseStudy['demo'] }) {
-  const scene = demo === 'field' ? 'cross-platform' : demo
+  const scene = demo
 
   if (demo === 'tender') {
     return (
@@ -35,19 +35,18 @@ export function CaseBlueprint({ demo }: { demo: CaseStudy['demo'] }) {
   }
 
   return (
-    <figure className="case-blueprint-mini blueprint-field" data-scene={scene} aria-hidden="true">
+    <figure className="case-blueprint-mini blueprint-writing" data-scene={scene} aria-hidden="true">
       <svg viewBox="0 0 600 250">
-        <rect className="device-phone" x="58" y="43" width="108" height="170" rx="18" />
-        <rect className="device-web" x="374" y="53" width="174" height="132" rx="4" />
-        <path className="device-stand" d="M430 205H492M461 185V205" />
-        <circle className="device-api" cx="279" cy="124" r="48" />
-        <path className="device-sync sync-a" d="M173 102C204 68 231 71 247 90" />
-        <path className="device-sync sync-b" d="M326 158C347 184 366 176 387 158" />
-        <path className="device-recovery" d="M185 164C231 218 350 220 411 187" />
-        <text x="279" y="131">API</text>
+        <rect className="writing-sheet" x="54" y="35" width="170" height="180" rx="3" />
+        <path className="writing-lines" d="M80 72H198M80 104H180M80 136H194M80 168H165" />
+        <circle className="writing-node" cx="318" cy="72" r="29" />
+        <circle className="writing-node" cx="318" cy="174" r="29" />
+        <rect className="writing-output" x="414" y="48" width="132" height="150" rx="3" />
+        <path className="writing-links" d="M224 90C257 90 273 75 289 72M224 158C257 158 273 170 289 174M347 72C379 72 390 96 414 105M347 174C379 174 390 151 414 142" />
+        <text x="318" y="78">PLAN</text><text x="318" y="180">RAG</text>
       </svg>
-      <span className="blueprint-caption">OFFLINE FIRST / QUEUE / RECOVER / SYNC</span>
-      <i className="blueprint-signal">⇄</i>
+      <span className="blueprint-caption">OUTLINE → RETRIEVE → DRAFT → REVIEW → EXPORT</span>
+      <i className="blueprint-signal">✎</i>
     </figure>
   )
 }

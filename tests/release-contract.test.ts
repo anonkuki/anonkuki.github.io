@@ -26,10 +26,11 @@ describe('public release contract', () => {
     expect(css).toMatch(/\.atlas-section \.section-intro\s*\{[^}]*margin:\s*0 0 58px 70px/s)
   })
 
-  it('provides reduced-motion and narrow-screen fallbacks for the visual guide', async () => {
+  it('does not render the retired right-side scroll guide', async () => {
+    const home = await readFile(path.join(root, 'src', 'pages', 'HomePage.tsx'), 'utf8')
     const css = await readFile(path.join(root, 'src', 'styles.css'), 'utf8')
-    expect(css).toMatch(/@media \(max-width: 1180px\)[\s\S]*?\.scroll-companion\s*\{[^}]*display:\s*none/s)
-    expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.scroll-companion-cat\s*\{[^}]*offset-distance:\s*8%/s)
+    expect(home).not.toContain('ScrollCompanion')
+    expect(css).not.toContain('.scroll-companion')
   })
 
   it('keeps decorative motion on compositor-friendly properties', async () => {
@@ -38,17 +39,16 @@ describe('public release contract', () => {
     expect(css).not.toMatch(/stroke-dashoffset/)
   })
 
-  it('uses the browser scroll timeline instead of a JavaScript scroll listener', async () => {
-    const component = await readFile(path.join(root, 'src', 'components', 'ScrollCompanion.tsx'), 'utf8')
-    const css = await readFile(path.join(root, 'src', 'styles.css'), 'utf8')
-    expect(component).not.toContain("addEventListener('scroll'")
-    expect(css).toMatch(/animation-timeline:\s*scroll\(root block\)/)
-  })
-
   it('pins the approved resume exception to the uploaded PDF hash', async () => {
     const scanner = await readFile(path.join(root, 'scripts', 'privacy-scan.mjs'), 'utf8')
     expect(scanner).toContain(approvedResumeSha256)
     expect(scanner).toContain('createHash')
+  })
+
+  it('allows only the explicitly approved public phone number', async () => {
+    const scanner = await readFile(path.join(root, 'scripts', 'privacy-scan.mjs'), 'utf8')
+    expect(scanner).toContain("const approvedPublicPhones = new Set(['17808200776'])")
+    expect(scanner).toContain('approvedPublicPhones')
   })
 
   it('allows only the explicitly approved local project brand through title redaction', async () => {

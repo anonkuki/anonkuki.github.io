@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { PortfolioApp } from '../src/App'
 import { LanguageProvider } from '../src/i18n/LanguageContext'
 
@@ -35,7 +35,7 @@ describe('portfolio experience', () => {
     expect(container.querySelector('.featured-collage')).toBeInTheDocument()
     expect(container.querySelectorAll('.featured-polaroid')).toHaveLength(3)
     expect(container.querySelectorAll('.case-blueprint-mini')).toHaveLength(3)
-    expect(Array.from(container.querySelectorAll('.case-blueprint-mini')).map((node) => node.getAttribute('data-scene'))).toEqual(['tender', 'regulated', 'cross-platform'])
+    expect(Array.from(container.querySelectorAll('.case-blueprint-mini')).map((node) => node.getAttribute('data-scene'))).toEqual(['tender', 'regulated', 'writing'])
     expect(container.querySelector('.scrapbook-stage')).toBeInTheDocument()
     expect(container.querySelectorAll('.project-polaroid')).toHaveLength(4)
     expect(container.querySelector('.scrapbook-doodles')).toBeInTheDocument()
@@ -55,16 +55,37 @@ describe('portfolio experience', () => {
     expect(screen.getByRole('heading', { name: '做过的项目，沉淀成可复用的工程能力。' })).toBeInTheDocument()
     expect(screen.getByText('从 Agent、文档智能到跨端交付，这里按六类能力整理我参与和完成的项目实践。')).toBeInTheDocument()
     expect(screen.queryByText(/不展示秘密/)).not.toBeInTheDocument()
-    expect(container.querySelector('.scroll-companion img')).toHaveAttribute('src', '/avatar-line.webp')
-    expect(container.querySelectorAll('.scroll-companion-marker')).toHaveLength(6)
+    expect(container.querySelector('.scroll-companion')).not.toBeInTheDocument()
     expect(container.querySelector('.capability-constellation')).toBeInTheDocument()
     expect(container.querySelector('.constellation-links')).toBeInTheDocument()
     expect(container.querySelector('.constellation-core img')).toHaveAttribute('src', '/avatar-line.webp')
     expect(container.querySelectorAll('.constellation-node')).toHaveLength(6)
     expect(screen.getByText('AI 协作与 Skill 工程')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: '如果你在寻找能把 AI 从想法做到落地的人，我们聊聊。' })).toBeInTheDocument()
+    expect(screen.getAllByRole('heading', { name: 'AI Copilot 智能写作平台' }).length).toBeGreaterThan(0)
+    expect(container.querySelector('.experience-subproject')).toHaveTextContent('跨端现场信息协同平台')
+    expect(container.querySelector('.experience-subproject')).toHaveTextContent('清研实习子项目')
+    expect(screen.getByText('求职方向：AI工程应用开发/agent开发')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '期待与你共事。' })).toBeInTheDocument()
     expect(screen.queryByText('复杂问题，可以从一封邮件开始。')).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: '下载简历' })).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
+  })
+
+  it('copies email, phone, and WeChat contact cards while keeping GitHub as a link', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    const user = userEvent.setup()
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } })
+    renderRoute()
+
+    await user.click(screen.getByRole('button', { name: '复制邮箱 gujianleng@gmail.com' }))
+    expect(writeText).toHaveBeenLastCalledWith('gujianleng@gmail.com')
+    expect(screen.getByText('邮箱已复制')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: '复制电话 17808200776' }))
+    expect(writeText).toHaveBeenLastCalledWith('17808200776')
+
+    await user.click(screen.getByRole('button', { name: '复制微信 ace123456787' }))
+    expect(writeText).toHaveBeenLastCalledWith('ace123456787')
+    expect(screen.getByRole('link', { name: 'GitHub github.com/anonkuki' })).toHaveAttribute('href', 'https://github.com/anonkuki')
   })
 
   it('switches the full interface to English', async () => {

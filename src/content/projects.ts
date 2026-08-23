@@ -93,39 +93,49 @@ export const featuredCases: CaseStudy[] = [
     accent: 'cyan',
   },
   {
-    slug: 'cross-platform-field-suite',
+    slug: 'ai-copilot-writing-platform',
     index: '03',
-    title: { zh: '跨端现场信息协同平台', en: 'Cross-platform Field Suite' },
-    eyebrow: { zh: 'Android · Web · Local API', en: 'Android · Web · Local API' },
+    title: { zh: 'AI Copilot 智能写作平台', en: 'AI Copilot Writing Platform' },
+    eyebrow: { zh: '多智能体 · 长篇写作 · RAG', en: 'Multi-agent · Long-form writing · RAG' },
     summary: {
-      zh: '同一业务对象在移动采集、离线队列、Web 态势视图和本地接口之间保持一致。',
-      en: 'Keeping one business object consistent across mobile capture, offline queues, web situational views, and a local API.',
+      zh: '把选题、大纲、资料检索、分章生成与一致性检查组织成可持续迭代的写作工作台。',
+      en: 'Organizing ideation, outlining, retrieval, chapter drafting, and consistency checks into an iterative writing workspace.',
     },
     problem: {
-      zh: '现场网络不稳定、附件体积不一、移动端与大屏关注点不同，数据仍需可靠汇聚和追踪状态。',
-      en: 'Field connectivity is unreliable, attachments vary in size, and mobile and desktop users need different views without losing data consistency.',
+      zh: '长篇写作容易在多轮生成中丢失结构、设定与引用关系，单次对话很难维持全局一致性。',
+      en: 'Long-form writing easily loses structure, world state, and source relationships across generations; a single chat cannot preserve the whole work.',
     },
     architecture: {
-      zh: 'Kotlin Compose 客户端使用 Room 和 Repository 隔离本地数据，React Web 通过服务层与 Zustand 管理视图，本地 API 提供统一契约。',
-      en: 'The Kotlin Compose client isolates Room persistence through repositories, while the React web app uses service adapters and Zustand over a shared local API contract.',
+      zh: '以多智能体工作流拆分规划、检索、写作与审查角色，结构化项目状态承载大纲、章节和资料上下文，RAG 为生成过程补充可追溯素材。',
+      en: 'A multi-agent workflow separates planning, retrieval, drafting, and review while structured project state carries outlines, chapters, and source context.',
     },
     reliability: {
-      zh: '本地优先写入、上传队列状态机、失败重试、端点发现与提交后回查共同降低弱网丢单风险。',
-      en: 'Local-first writes, an upload-queue reducer, retry states, endpoint discovery, and post-submit verification reduce weak-network loss.',
+      zh: '章节级状态、明确的工作流阶段和一致性检查让生成过程可暂停、可重做，也避免把一次模型输出直接当作最终稿。',
+      en: 'Chapter-level state, explicit workflow stages, and consistency checks make generation resumable and revisable instead of treating one model response as final.',
     },
     performance: {
-      zh: '路由懒加载与图表依赖分包降低 Web 首屏负担；附件按体积策略决定内联或外部传输。',
-      en: 'Route lazy loading and chart chunking reduce the web entry cost; attachment payload policy adapts to file size.',
+      zh: '按项目与章节复用上下文，避免每轮重新装载全部资料；桌面端工作台将复杂生成流程收束到同一界面。',
+      en: 'Project- and chapter-level context reuse avoids reloading all source material on every turn while the desktop workspace keeps the workflow in one interface.',
     },
-    stack: ['Kotlin', 'Jetpack Compose', 'Room', 'React', 'TypeScript', 'Zustand', 'ECharts', 'Python'],
+    stack: ['TypeScript', 'React', 'Electron', 'Multi-Agent', 'RAG', 'LLM API'],
     metrics: [
-      { value: '3', label: { zh: '协同运行端', en: 'cooperating runtimes' }, evidence: { zh: 'Android、Web、本地 API', en: 'Android, web, and local API' }, state: 'source-backed' },
-      { value: '17', label: { zh: 'Android 测试文件', en: 'Android test files' }, evidence: { zh: '当前源码扫描', en: 'Current source inventory' }, state: 'verified-current' },
+      { value: 'Public', label: { zh: '公开仓库可核验', en: 'publicly verifiable repository' }, evidence: { zh: 'GitHub 当前公开仓库', en: 'Current public GitHub repository' }, state: 'public-repo' },
+      { value: 'RAG', label: { zh: '资料增强写作', en: 'retrieval-augmented writing' }, evidence: { zh: '公开项目技术栈', en: 'Public project stack' }, state: 'public-repo' },
     ],
-    demo: 'field',
+    demo: 'writing',
     accent: 'ink',
   },
 ]
+
+export const qingyanSubproject = {
+  title: { zh: '跨端现场信息协同平台', en: 'Cross-platform Field Collaboration Suite' },
+  label: { zh: '清研实习子项目', en: 'Additional Qingyan internship delivery' },
+  summary: {
+    zh: '负责 Android、Web 与本地 API 的跨端协同设计，以 Room 本地存储、上传队列和断网恢复保障现场数据可靠交付。',
+    en: 'Designed collaboration across Android, web, and a local API, using Room persistence, upload queues, and offline recovery for reliable field delivery.',
+  },
+  tags: ['Kotlin', 'Jetpack Compose', 'Room', 'React', 'Local API'],
+}
 
 export const publicProjects: PublicProject[] = [
   {

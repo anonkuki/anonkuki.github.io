@@ -8,7 +8,7 @@ describe('public portfolio content contract', () => {
     expect(featuredCases.map((item) => item.slug)).toEqual([
       'tender-agent-harness',
       'regulated-report-agent',
-      'cross-platform-field-suite',
+      'ai-copilot-writing-platform',
     ])
     expect(featuredCases[0]).toMatchObject({
       organization: { zh: '北京清研灵智' },
@@ -17,6 +17,10 @@ describe('public portfolio content contract', () => {
     expect(featuredCases[1]).toMatchObject({
       organization: { zh: '北京科兴' },
       period: { zh: '2026.07 — 至今' },
+    })
+    expect(featuredCases[2]).toMatchObject({
+      title: { zh: 'AI Copilot 智能写作平台' },
+      demo: 'writing',
     })
   })
 
