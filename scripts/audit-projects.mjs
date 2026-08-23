@@ -10,8 +10,8 @@ const publicRepos = new Set([
   'AI-Copilot-Writing-Platform',
   'Zuoyou-Anime-Club-2025-Annual-Summary',
   'manchu-degradation-simulator',
-  'OPC-TEST',
   'zuoyou_web',
+  'duolinban-campus',
 ])
 
 const sourceExtensions = new Set([

@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto'
 const cwd = process.cwd()
 const roots = ['src', 'scripts', 'tests', 'e2e', 'public', 'dist', '.github', 'README.md', 'PUBLICATION_MANIFEST.md', 'package.json', 'playwright.config.ts', 'vite.config.ts']
 const textExtensions = new Set(['.html', '.css', '.scss', '.js', '.mjs', '.cjs', '.py', '.ts', '.tsx', '.json', '.md', '.txt', '.xml', '.yml', '.yaml', '.svg'])
+const rasterExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.webp'])
 const findings = []
 const blocklistPath = path.join(cwd, '.private', 'redaction-blocklist.txt')
 let blocklist = []
@@ -18,6 +19,17 @@ const patterns = [
   { kind: 'private-ip', regex: /\b(?:10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2})\b/g },
   { kind: 'local-windows-path', regex: /\b[A-Za-z]:[\\/][^\s"'<>)]*/gi },
 ]
+const approvedPublicTitles = new Set(['duolinban-campus', 'duolinban'])
+// Each hash binds an image that has been manually reviewed for visible content and metadata.
+// Re-exporting, replacing, or adding public media must trigger a fresh review and hash update.
+const approvedPublicMediaSha256 = new Map([
+  ['avatar-line.webp', '5DFBA82B0568F60CA5F87708203234F290D96E075C4EE83CBE1113F7F81F82B1'],
+  ['project-covers/ai-writing.webp', '81FD204817DF57AE825AAB2056376D61E78ACC7558D934360EBDA021564F9676'],
+  ['project-covers/club-guild.webp', '9E512EA446B01070F91D811542991DDE1EA3971902081CD02E0EC4DEE38841EC'],
+  ['project-covers/club-space.webp', 'FB9F0B044A716BB79546B7B829326990F10C1CFBF365A628720703633B71C2B4'],
+  ['project-covers/duolinban.webp', '649DCC438ED3DC78DC7AA4A849E40778A76EC8C0B788432578E0518D07C18B65'],
+  ['project-covers/manchu.webp', 'E9E2FD4A72E029E0985BFBB4A188A85DDC794D20618EB912BF4569070356DB32'],
+])
 const approvedResumeSha256 = 'F39BACDC4AF98CD19420EB1A25FBD0EAAAE105F036B8F4F35016F3989347CE01'
 const approvedResumeRelative = path.join('resume', 'lenggujian-resume.pdf')
 const approvedResumeCandidates = [
@@ -52,6 +64,16 @@ async function walk(target) {
 for (const root of roots) {
   for (const file of await walk(path.join(cwd, root))) {
     const extension = path.extname(file).toLowerCase()
+    if (['public', 'dist'].includes(root) && rasterExtensions.has(extension)) {
+      const relativeMediaPath = path.relative(path.join(cwd, root), file).split(path.sep).join('/')
+      const expected = approvedPublicMediaSha256.get(relativeMediaPath)
+      if (!expected) findings.push({ file, kind: 'unapproved-public-media' })
+      else {
+        const actual = createHash('sha256').update(await fs.readFile(file)).digest('hex').toUpperCase()
+        if (actual !== expected) findings.push({ file, kind: 'approved-public-media-hash-mismatch' })
+      }
+      continue
+    }
     let content = ''
     if (extension === '.pdf') {
       const extracted = spawnSync('pdftotext', ['-enc', 'UTF-8', file, '-'], { encoding: 'utf8' })
@@ -69,6 +91,7 @@ for (const root of roots) {
     const shouldScanPrivateTitles = ['src', 'public', 'dist', 'README.md', 'PUBLICATION_MANIFEST.md'].includes(root)
     const lowered = content.toLowerCase()
     if (shouldScanPrivateTitles) for (const forbidden of blocklist) {
+      if (approvedPublicTitles.has(forbidden.toLowerCase())) continue
       if (lowered.includes(forbidden.toLowerCase())) findings.push({ file, kind: 'local-project-title' })
     }
   }

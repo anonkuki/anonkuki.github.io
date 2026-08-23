@@ -30,8 +30,22 @@ for (const profile of profiles) {
       window.scrollTo({ top: 0, behavior: 'instant' })
     })
     await page.screenshot({ path: path.join(output, 'desktop-full-page.png'), fullPage: true })
+    await page.locator('.open-section').scrollIntoViewIfNeeded()
+    await page.locator('.open-section img').evaluateAll(async (images) => Promise.all(images.map(async (image) => { if (!image.complete) await new Promise((resolve) => image.addEventListener('load', resolve, { once: true })); await image.decode().catch(() => {}) })))
+    await page.addStyleTag({ content: '.site-header,.skip-link{display:none!important}' })
+    await page.locator('.open-section').screenshot({ path: path.join(output, 'projects-desktop.png') })
+  }
+  if (profile.name === 'mobile-390x844') {
+    for (const card of await page.locator('.public-card').all()) {
+      await card.scrollIntoViewIfNeeded()
+      await page.waitForTimeout(90)
+    }
+    await page.locator('.open-section').scrollIntoViewIfNeeded()
+    await page.locator('.open-section img').evaluateAll(async (images) => Promise.all(images.map(async (image) => { if (!image.complete) await new Promise((resolve) => image.addEventListener('load', resolve, { once: true })); await image.decode().catch(() => {}) })))
+    await page.addStyleTag({ content: '.site-header,.skip-link{display:none!important}' })
+    await page.locator('.open-section').screenshot({ path: path.join(output, 'projects-mobile.png') })
   }
   await context.close()
 }
 await browser.close()
-console.log(`Captured ${profiles.length + 2} visual QA screenshots in ${output}`)
+console.log(`Captured ${profiles.length + 4} visual QA screenshots in ${output}`)

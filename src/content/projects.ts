@@ -5,16 +5,14 @@ import githubSnapshot from './github-snapshot.json'
 interface GitHubSnapshotItem {
   repo: string
   language: string
-  stars: number
   demoUrl?: string
 }
 
 const githubByRepo = new Map(githubSnapshot.repositories.map((item) => [item.repo, item as GitHubSnapshotItem]))
-const publicMetadata = (repo: string, fallback: { language: string; stars: number; demoUrl?: string }) => {
+const publicMetadata = (repo: string, fallback: { language: string; demoUrl?: string }) => {
   const synced = githubByRepo.get(repo)
   return {
     language: synced?.language || fallback.language,
-    stars: synced?.stars ?? fallback.stars,
     demoUrl: synced?.demoUrl || fallback.demoUrl,
   }
 }
@@ -126,39 +124,53 @@ export const featuredCases: CaseStudy[] = [
 export const publicProjects: PublicProject[] = [
   {
     repo: 'AI-Copilot-Writing-Platform',
+    repositories: ['AI-Copilot-Writing-Platform'],
+    visibility: 'public',
     title: { zh: 'AI Copilot 智能写作平台', en: 'AI Copilot Writing Platform' },
     description: { zh: '多智能体编排、结构化长篇写作、RAG 与一致性检查。', en: 'Multi-agent orchestration, structured long-form writing, RAG, and consistency checks.' },
-    url: 'https://github.com/anonkuki/AI-Copilot-Writing-Platform', ...publicMetadata('AI-Copilot-Writing-Platform', { language: 'TypeScript', stars: 13 }),
-    tags: ['Multi-Agent', 'RAG', 'Electron'], visual: 'writer',
+    ...publicMetadata('AI-Copilot-Writing-Platform', { language: 'TypeScript' }),
+    tags: ['Multi-Agent', 'RAG', 'Electron'],
+    covers: [{ src: '/project-covers/ai-writing.webp', label: { zh: '沉浸式写作工作台', en: 'Immersive writing workspace' } }],
+    links: [{ repo: 'AI-Copilot-Writing-Platform', label: { zh: '智能写作平台', en: 'Writing platform' }, url: 'https://github.com/anonkuki/AI-Copilot-Writing-Platform' }],
   },
   {
-    repo: 'Zuoyou-Anime-Club-2025-Annual-Summary',
-    title: { zh: '佐佑动漫社年度星际报告', en: 'Zuoyou Annual Space Report' },
-    description: { zh: '为每位社员生成专属星际旅程的交互式年度总结。', en: 'A personalized interactive annual journey through a 3D club galaxy.' },
-    url: 'https://github.com/anonkuki/Zuoyou-Anime-Club-2025-Annual-Summary',
-    ...publicMetadata('Zuoyou-Anime-Club-2025-Annual-Summary', { demoUrl: 'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/', language: 'JavaScript', stars: 5 }),
-    tags: ['Three.js', 'GSAP', 'Storytelling'], visual: 'space',
+    repo: 'zuoyou-club-sites',
+    repositories: ['Zuoyou-Anime-Club-2025-Annual-Summary', 'zuoyou_web'],
+    visibility: 'public',
+    title: { zh: '佐佑动漫社 · 双站作品集', en: 'Zuoyou Anime Club · Two Web Experiences' },
+    description: { zh: '同一社团的两种数字叙事：面向个人记忆的星际年度报告，以及承载社团档案与运营的像素冒险者公会。', en: 'Two digital narratives for one club: a personal galactic annual report and a pixel guild for archives and operations.' },
+    language: 'JavaScript + TypeScript',
+    tags: ['Three.js', 'Pixel Art', 'Storytelling', 'Full-stack'],
+    covers: [
+      { src: '/project-covers/club-space.webp', label: { zh: '年度星际报告', en: 'Annual space report' } },
+      { src: '/project-covers/club-guild.webp', label: { zh: '冒险者公会', en: 'Adventurer guild' } },
+    ],
+    links: [
+      { repo: 'Zuoyou-Anime-Club-2025-Annual-Summary', label: { zh: '年度星际报告', en: 'Annual report' }, url: 'https://github.com/anonkuki/Zuoyou-Anime-Club-2025-Annual-Summary', demoUrl: 'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/' },
+      { repo: 'zuoyou_web', label: { zh: '冒险者公会', en: 'Adventurer guild' }, url: 'https://github.com/anonkuki/zuoyou_web' },
+    ],
   },
   {
     repo: 'manchu-degradation-simulator',
+    repositories: ['manchu-degradation-simulator'],
+    visibility: 'public',
     title: { zh: '古籍文字退化模拟器', en: 'Manchu Degradation Simulator' },
     description: { zh: '面向古籍 OCR 研究的数据退化与合成样本工具。', en: 'A degradation and synthetic-sample toolkit for historical-text OCR research.' },
-    url: 'https://github.com/anonkuki/manchu-degradation-simulator', ...publicMetadata('manchu-degradation-simulator', { language: 'Python', stars: 1 }),
-    tags: ['Python', 'OCR', 'Computer Vision'], visual: 'manchu',
+    ...publicMetadata('manchu-degradation-simulator', { language: 'Python' }),
+    tags: ['Python', 'OCR', 'Computer Vision'],
+    covers: [{ src: '/project-covers/manchu.webp', label: { zh: '古籍退化样本', en: 'Degraded manuscript sample' } }],
+    links: [{ repo: 'manchu-degradation-simulator', label: { zh: '古籍退化模拟器', en: 'Degradation simulator' }, url: 'https://github.com/anonkuki/manchu-degradation-simulator' }],
   },
   {
-    repo: 'OPC-TEST',
-    title: { zh: '可审计数字员工材料包', en: 'Auditable Digital-worker Package' },
-    description: { zh: '以输入锁定、隔离执行和证据清单支撑可复核的 Agent 协作。', en: 'Repository-backed agent collaboration with locked inputs, isolated execution, and evidence manifests.' },
-    url: 'https://github.com/anonkuki/OPC-TEST', ...publicMetadata('OPC-TEST', { language: 'Evidence package', stars: 0 }),
-    tags: ['Agent Ops', 'Audit', 'SHA-256'], visual: 'audit',
-  },
-  {
-    repo: 'zuoyou_web',
-    title: { zh: '佐佑冒险者公会', en: 'Zuoyou Adventurer Guild' },
-    description: { zh: '像素叙事、社团档案与内容管理结合的全栈公会站点。', en: 'A pixel-storytelling guild site combining club archives and content management.' },
-    url: 'https://github.com/anonkuki/zuoyou_web', ...publicMetadata('zuoyou_web', { language: 'TypeScript', stars: 0 }),
-    tags: ['React', 'Pixel Art', 'Playwright'], visual: 'guild',
+    repo: 'duolinban-campus',
+    repositories: ['duolinban-campus'],
+    visibility: 'local',
+    title: { zh: '多邻班 · AI 校园题库共创平台', en: 'Duolinban · AI Campus Question Commons' },
+    description: { zh: '把 PDF/OCR 学习资料转成可练习、可开源、可协作改进的校园题库，并串联判题、错题重练与学习打卡。', en: 'Turning PDF/OCR materials into practice-ready, open, collaborative campus question banks with grading, retries, and study streaks.' },
+    language: 'TypeScript',
+    tags: ['Next.js', 'AI Question Agent', 'PDF/OCR', 'Supabase'],
+    covers: [{ src: '/project-covers/duolinban.webp', label: { zh: '多邻班学习助手', en: 'Duolinban learning companion' } }],
+    links: [],
   },
 ]
 

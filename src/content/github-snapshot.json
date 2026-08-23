@@ -1,44 +1,36 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "repositories": [
     {
+      "owner": "anonkuki",
       "repo": "AI-Copilot-Writing-Platform",
       "description": "类copilot小说辅助智能体",
       "language": "TypeScript",
-      "stars": 13,
       "url": "https://github.com/anonkuki/AI-Copilot-Writing-Platform",
       "verifiedAt": "2026-08-23"
     },
     {
+      "owner": "anonkuki",
       "repo": "Zuoyou-Anime-Club-2025-Annual-Summary",
       "description": "类网易云年度报告展示网站",
       "language": "JavaScript",
-      "stars": 5,
       "url": "https://github.com/anonkuki/Zuoyou-Anime-Club-2025-Annual-Summary",
       "verifiedAt": "2026-08-23"
     },
     {
-      "repo": "manchu-degradation-simulator",
-      "description": "古籍文字退化模拟",
-      "language": "Python",
-      "stars": 1,
-      "url": "https://github.com/anonkuki/manchu-degradation-simulator",
-      "verifiedAt": "2026-08-23"
-    },
-    {
-      "repo": "OPC-TEST",
-      "description": "",
-      "language": "Mixed",
-      "stars": 0,
-      "url": "https://github.com/anonkuki/OPC-TEST",
-      "verifiedAt": "2026-08-23"
-    },
-    {
+      "owner": "anonkuki",
       "repo": "zuoyou_web",
       "description": "",
       "language": "Mixed",
-      "stars": 0,
       "url": "https://github.com/anonkuki/zuoyou_web",
+      "verifiedAt": "2026-08-23"
+    },
+    {
+      "owner": "anonkuki",
+      "repo": "manchu-degradation-simulator",
+      "description": "古籍文字退化模拟",
+      "language": "Python",
+      "url": "https://github.com/anonkuki/manchu-degradation-simulator",
       "verifiedAt": "2026-08-23"
     }
   ]

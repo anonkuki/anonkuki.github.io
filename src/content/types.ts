@@ -28,14 +28,22 @@ export interface CaseStudy {
 
 export interface PublicProject {
   repo: string
+  repositories: string[]
+  visibility: 'public' | 'local'
   title: LocalizedText
   description: LocalizedText
-  url: string
-  demoUrl?: string
   language: string
-  stars: number
   tags: string[]
-  visual: 'writer' | 'space' | 'rank' | 'manchu' | 'audit' | 'guild'
+  covers: Array<{
+    src: string
+    label: LocalizedText
+  }>
+  links: Array<{
+    repo: string
+    label: LocalizedText
+    url: string
+    demoUrl?: string
+  }>
 }
 
 export interface CapabilityGroup {

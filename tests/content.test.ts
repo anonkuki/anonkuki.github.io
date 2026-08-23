@@ -12,15 +12,26 @@ describe('public portfolio content contract', () => {
     ])
   })
 
-  it('lists every current public GitHub repository once', () => {
+  it('presents four cover-led cards while preserving five approved repository links', () => {
     expect(publicProjects.map((item) => item.repo)).toEqual([
       'AI-Copilot-Writing-Platform',
-      'Zuoyou-Anime-Club-2025-Annual-Summary',
+      'zuoyou-club-sites',
       'manchu-degradation-simulator',
-      'OPC-TEST',
-      'zuoyou_web',
+      'duolinban-campus',
     ])
-    expect(new Set(githubSnapshot.repositories.map((item) => item.repo)).size).toBe(5)
+    expect(publicProjects.flatMap((item) => item.repositories ?? [item.repo])).toEqual([
+      'AI-Copilot-Writing-Platform',
+      'Zuoyou-Anime-Club-2025-Annual-Summary',
+      'zuoyou_web',
+      'manchu-degradation-simulator',
+      'duolinban-campus',
+    ])
+    expect(publicProjects.every((item) => item.covers?.length)).toBe(true)
+    expect(publicProjects.find((item) => item.repo === 'zuoyou-club-sites')?.repositories).toHaveLength(2)
+    expect(new Set(githubSnapshot.repositories.map((item) => item.repo)).size).toBe(4)
+    expect(githubSnapshot.repositories.some((item) => item.repo === 'OPC-TEST')).toBe(false)
+    expect(githubSnapshot.repositories.some((item) => item.repo === 'duolinban-campus')).toBe(false)
+    expect(publicProjects.find((item) => item.repo === 'duolinban-campus')).toMatchObject({ visibility: 'local', links: [] })
     expect(publicProjects.some((item) => item.repo === 'my-anime-rank')).toBe(false)
   })
 

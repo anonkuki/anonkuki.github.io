@@ -12,12 +12,12 @@ const urls = new Set([
 
 const failures = []
 for (const item of snapshot.repositories) {
-  const expected = `https://github.com/anonkuki/${item.repo}`
+  const expected = `https://github.com/${item.owner}/${item.repo}`
   if (item.url !== expected || !item.verifiedAt) failures.push(`${expected} -> invalid build-time API snapshot`)
   else console.log(`SNAPSHOT ${item.verifiedAt} ${item.url}`)
 }
-if (snapshot.repositories.length !== 5) failures.push('https://github.com/anonkuki -> incomplete repository snapshot')
-else console.log('SNAPSHOT profile confirmed through five approved repository API responses')
+if (snapshot.repositories.length !== 4 || snapshot.repositories.some((item) => item.repo === 'OPC-TEST')) failures.push('https://github.com -> incomplete approved repository snapshot')
+else console.log('SNAPSHOT confirmed through four approved public repository API responses')
 for (const url of urls) {
   try {
     const response = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15_000), headers: { 'User-Agent': 'lenggujian-portfolio-link-check' } })

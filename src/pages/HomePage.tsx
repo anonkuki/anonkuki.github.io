@@ -46,7 +46,7 @@ export function HomePage() {
           </div>
           <div className="hero-proof">
             <span><b>02</b>{zh ? '段行业实习' : 'domain internships'}</span>
-            <span><b>05</b>{zh ? '个精选开源项目' : 'selected open-source projects'}</span>
+            <span><b>04</b>{zh ? '张精选项目卡' : 'selected project cards'}</span>
             <span><b>03</b>{zh ? '个可交互案例' : 'interactive cases'}</span>
           </div>
         </div>
@@ -82,22 +82,24 @@ export function HomePage() {
       <section className="open-section section-pad">
         <SectionHeading
           index="02"
-          eyebrow="OPEN SOURCE"
-          title={zh ? '代码公开，想法也公开' : 'Open code, open ideas'}
+          eyebrow="SELECTED BUILDS"
+          title={zh ? '公开代码，也展示完整作品' : 'Open code, complete work'}
           action={<a className="text-link" href="https://github.com/anonkuki" target="_blank" rel="noreferrer"><Code2 size={18} />GitHub<ExternalLink size={14} /></a>}
         />
         <div className="masonry-grid">
           {publicProjects.map((project, index) => (
             <article className={`public-card reveal card-${index + 1}`} data-testid="public-project" key={project.repo}>
-              <ProjectVisual project={project} />
+              <ProjectVisual project={project} language={language} />
               <div className="public-card-copy">
-                <span className="repo-meta">{project.language} · ★ {project.stars}</span>
+                <span className="repo-meta">{project.language} · {project.visibility === 'local' ? (zh ? '本地完整项目' : 'complete local project') : `${String(project.repositories.length).padStart(2, '0')} ${zh ? '个仓库' : project.repositories.length === 1 ? 'repository' : 'repositories'}`}</span>
                 <h3>{text(project.title)}</h3>
                 <p>{text(project.description)}</p>
                 <div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
                 <div className="public-actions">
-                  <a href={project.url} target="_blank" rel="noreferrer" aria-label={`${text(project.title)} GitHub`}><Code2 size={15} />GitHub<ExternalLink size={13} /></a>
-                  {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noreferrer" aria-label={`${text(project.title)} ${zh ? '在线演示' : 'live demo'}`}><Sparkles size={15} />{zh ? '在线演示' : 'Live demo'}<ExternalLink size={13} /></a>}
+                  {project.links.map((link) => <span className="project-link-set" key={link.repo}>
+                    <a href={link.url} target="_blank" rel="noreferrer" aria-label={`${text(link.label)} GitHub`}><Code2 size={15} />{text(link.label)}<ExternalLink size={13} /></a>
+                    {link.demoUrl && <a href={link.demoUrl} target="_blank" rel="noreferrer" aria-label={`${text(link.label)} ${zh ? '在线演示' : 'live demo'}`}><Sparkles size={15} />{zh ? '在线演示' : 'Live demo'}<ExternalLink size={13} /></a>}
+                  </span>)}
                 </div>
               </div>
             </article>

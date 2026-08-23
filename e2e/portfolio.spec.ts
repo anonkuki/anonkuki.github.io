@@ -3,7 +3,14 @@ import { expect, test } from '@playwright/test'
 test('home, language, public work, contact, and resume are reachable', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('把复杂行业流程')
-  await expect(page.getByTestId('public-project')).toHaveCount(5)
+  await expect(page.getByTestId('public-project')).toHaveCount(4)
+  await expect(page.getByText('多邻班 · AI 校园题库共创平台')).toBeVisible()
+  await expect(page.getByText('佐佑动漫社 · 双站作品集')).toBeVisible()
+  for (const card of await page.getByTestId('public-project').all()) await card.scrollIntoViewIfNeeded()
+  const covers = page.locator('.project-visual img')
+  await expect(covers).toHaveCount(5)
+  for (const cover of await covers.all()) await expect.poll(() => cover.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  await expect(page.getByText(/★/)).toHaveCount(0)
   await expect(page.getByRole('link', { name: /在线演示/ })).toHaveCount(1)
   await expect(page.getByRole('link', { name: /gujianleng@gmail.com/ })).toHaveAttribute('href', 'mailto:gujianleng@gmail.com')
 

@@ -22,10 +22,20 @@ describe('portfolio experience', () => {
     expect(screen.getByText('assembling selected work')).toBeInTheDocument()
   })
 
-  it('renders the Chinese hero and the five approved public repositories', () => {
+  it('renders four cover-led cards without GitHub star counts', () => {
     renderRoute()
     expect(screen.getByRole('heading', { name: '把复杂行业流程，做成可执行、可追溯、可交付的 AI 系统。' })).toBeInTheDocument()
-    expect(screen.getAllByTestId('public-project')).toHaveLength(5)
+    expect(screen.getAllByTestId('public-project')).toHaveLength(4)
+    expect(screen.getByText('04', { selector: '.hero-proof b' })).toBeInTheDocument()
+    expect(screen.getByText('张精选项目卡')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '多邻班 · AI 校园题库共创平台' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '佐佑动漫社 · 双站作品集' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '年度星际报告 GitHub' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '冒险者公会 GitHub' })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: '多邻班 GitHub' })).not.toBeInTheDocument()
+    expect(screen.getByText(/本地完整项目/)).toBeInTheDocument()
+    expect(screen.queryByText(/★/)).not.toBeInTheDocument()
+    expect(screen.queryByText('可审计数字员工材料包')).not.toBeInTheDocument()
     expect(screen.queryByText('动画作品个人排行')).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: '下载简历' })).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
   })
@@ -35,6 +45,10 @@ describe('portfolio experience', () => {
     renderRoute()
     await user.click(screen.getByRole('button', { name: 'Switch to English' }))
     expect(screen.getByRole('heading', { name: 'I turn complex domain workflows into traceable, shippable AI systems.' })).toBeInTheDocument()
+    expect(screen.getByText('Immersive writing workspace')).toBeInTheDocument()
+    expect(screen.queryByText('沉浸式写作工作台')).not.toBeInTheDocument()
+    expect(screen.getAllByText(/01 repository$/)).toHaveLength(2)
+    expect(screen.queryByText(/01 repositories$/)).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Download resume' })).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
   })
 
