@@ -1,8 +1,11 @@
 import { ArrowDownRight, ArrowRight, Code2, ExternalLink, Mail, Sparkles } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { CapabilityConstellation } from '../components/CapabilityConstellation'
+import { CaseBlueprint } from '../components/CaseBlueprint'
 import { HeroArtwork } from '../components/HeroArtwork'
 import { ProjectVisual } from '../components/ProjectVisual'
+import { ScrollCompanion } from '../components/ScrollCompanion'
 import { SectionHeading } from '../components/SectionHeading'
 import { capabilityGroups, featuredCases, publicProjects } from '../content/projects'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -32,6 +35,7 @@ export function HomePage() {
 
   return (
     <main id="main-content" ref={mainRef}>
+      <ScrollCompanion />
       <section className="hero section-pad">
         <div className="hero-copy">
           <div className="role-chips">
@@ -68,11 +72,7 @@ export function HomePage() {
                 <p>{text(item.summary)}</p>
                 <div className="tag-row">{item.stack.slice(0, 5).map((tag) => <span key={tag}>{tag}</span>)}</div>
               </div>
-              <div className={`case-sketch sketch-${item.demo}`} aria-hidden="true">
-                <span className="sketch-grid" />
-                <b>{item.demo === 'tender' ? '01→07' : item.demo === 'regulated' ? 'RULE / AI' : 'APP ⇄ WEB'}</b>
-                <i>{item.demo === 'tender' ? '⌁' : item.demo === 'regulated' ? '✓' : '↯'}</i>
-              </div>
+              <CaseBlueprint demo={item.demo} />
               <Link className="case-link" to={`/work/${item.slug}`} aria-label={`${text(item.title)} - ${zh ? '查看案例' : 'View case'}`}><ArrowRight /></Link>
               <span className="tape" style={{ rotate: `${index % 2 ? 3 : -3}deg` }} />
             </article>
@@ -114,14 +114,7 @@ export function HomePage() {
       <section className="atlas-section section-pad" id="atlas">
         <SectionHeading index="03" eyebrow="DELIVERY ATLAS" title={zh ? '做过的项目，沉淀成可复用的工程能力。' : 'Projects become reusable engineering capabilities.'} />
         <p className="section-intro reveal">{zh ? '从 Agent、文档智能到跨端交付，这里按六类能力整理我参与和完成的项目实践。' : 'From agents and document intelligence to cross-platform delivery, this atlas groups my work into six engineering capabilities.'}</p>
-        <div className="atlas-grid">
-          {capabilityGroups.map((group, index) => (
-            <article className="atlas-card reveal" style={{ '--group-color': group.color } as React.CSSProperties} key={group.id}>
-              <div className="atlas-count"><b>{String(group.count).padStart(2, '0')}</b><span>{zh ? '个经历映射' : 'mapped experiences'}</span></div>
-              <div><span className="atlas-index">A{index + 1}</span><h3>{text(group.title)}</h3><p>{text(group.summary)}</p><div className="tag-row">{group.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
-            </article>
-          ))}
-        </div>
+        <CapabilityConstellation groups={capabilityGroups} text={text} zh={zh} />
       </section>
 
       <section className="experience-section section-pad" id="experience">
