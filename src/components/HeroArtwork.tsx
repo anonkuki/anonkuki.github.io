@@ -5,7 +5,7 @@ export function HeroArtwork() {
       <div className="orbit orbit-b" />
       <div className="hero-stamp">TRACE<br />SHIP<br />LEARN</div>
       <div className="portrait-frame">
-        <img src="/avatar-line.webp" width="620" height="760" alt="" />
+        <img src="/avatar-line.webp" width="1243" height="1400" alt="" />
         <span className="portrait-tag">agent<br />builder</span>
       </div>
       <svg className="hero-arrow" viewBox="0 0 180 120">

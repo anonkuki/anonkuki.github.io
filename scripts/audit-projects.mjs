@@ -9,7 +9,6 @@ const summaryPath = path.join(cwd, 'src', 'content', 'audit-summary.json')
 const publicRepos = new Set([
   'AI-Copilot-Writing-Platform',
   'Zuoyou-Anime-Club-2025-Annual-Summary',
-  'my-anime-rank',
   'manchu-degradation-simulator',
   'OPC-TEST',
   'zuoyou_web',

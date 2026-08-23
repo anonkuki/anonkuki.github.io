@@ -3,15 +3,15 @@ import { expect, test } from '@playwright/test'
 test('home, language, public work, contact, and resume are reachable', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('把复杂行业流程')
-  await expect(page.getByTestId('public-project')).toHaveCount(6)
-  await expect(page.getByRole('link', { name: /在线演示/ })).toHaveCount(2)
+  await expect(page.getByTestId('public-project')).toHaveCount(5)
+  await expect(page.getByRole('link', { name: /在线演示/ })).toHaveCount(1)
   await expect(page.getByRole('link', { name: /gujianleng@gmail.com/ })).toHaveAttribute('href', 'mailto:gujianleng@gmail.com')
 
-  const zhResume = page.getByRole('link', { name: /下载脱敏简历/ })
-  await expect(zhResume).toHaveAttribute('href', '/resume/lenggujian-resume-zh.pdf')
+  const zhResume = page.getByRole('link', { name: /下载简历/ })
+  await expect(zhResume).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
   await page.getByRole('button', { name: 'Switch to English' }).click()
   await expect(page.getByRole('heading', { level: 1 })).toContainText('traceable, shippable AI systems')
-  await expect(page.getByRole('link', { name: /Download resume/ })).toHaveAttribute('href', '/resume/lenggujian-resume-en.pdf')
+  await expect(page.getByRole('link', { name: /Download resume/ })).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
 
 })
 

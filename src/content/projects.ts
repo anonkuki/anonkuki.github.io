@@ -140,13 +140,6 @@ export const publicProjects: PublicProject[] = [
     tags: ['Three.js', 'GSAP', 'Storytelling'], visual: 'space',
   },
   {
-    repo: 'my-anime-rank',
-    title: { zh: '动画作品个人排行', en: 'My Anime Rank' },
-    description: { zh: '轻量、可分享的动画作品排序与展示实验。', en: 'A lightweight, shareable experiment for ranking and presenting anime.' },
-    url: 'https://github.com/anonkuki/my-anime-rank', ...publicMetadata('my-anime-rank', { demoUrl: 'https://anonkuki.github.io/my-anime-rank/', language: 'HTML', stars: 3 }),
-    tags: ['HTML', 'Visual list', 'Static'], visual: 'rank',
-  },
-  {
     repo: 'manchu-degradation-simulator',
     title: { zh: '古籍文字退化模拟器', en: 'Manchu Degradation Simulator' },
     description: { zh: '面向古籍 OCR 研究的数据退化与合成样本工具。', en: 'A degradation and synthetic-sample toolkit for historical-text OCR research.' },

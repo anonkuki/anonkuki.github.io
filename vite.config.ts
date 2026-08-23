@@ -10,7 +10,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('/gsap/')) return 'animation'
           if (id.includes('/react-router') || id.includes('/@remix-run/')) return 'router'
           return undefined
         },

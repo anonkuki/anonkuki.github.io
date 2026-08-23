@@ -16,12 +16,12 @@ describe('public portfolio content contract', () => {
     expect(publicProjects.map((item) => item.repo)).toEqual([
       'AI-Copilot-Writing-Platform',
       'Zuoyou-Anime-Club-2025-Annual-Summary',
-      'my-anime-rank',
       'manchu-degradation-simulator',
       'OPC-TEST',
       'zuoyou_web',
     ])
-    expect(new Set(githubSnapshot.repositories.map((item) => item.repo)).size).toBe(6)
+    expect(new Set(githubSnapshot.repositories.map((item) => item.repo)).size).toBe(5)
+    expect(publicProjects.some((item) => item.repo === 'my-anime-rank')).toBe(false)
   })
 
   it('defines six anonymized capability groups with positive audited counts', () => {

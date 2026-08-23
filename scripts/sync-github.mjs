@@ -4,7 +4,6 @@ import path from 'node:path'
 const repositories = [
   'AI-Copilot-Writing-Platform',
   'Zuoyou-Anime-Club-2025-Annual-Summary',
-  'my-anime-rank',
   'manchu-degradation-simulator',
   'OPC-TEST',
   'zuoyou_web',

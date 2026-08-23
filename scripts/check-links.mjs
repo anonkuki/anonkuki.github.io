@@ -5,11 +5,9 @@ const snapshot = JSON.parse(await readFile(path.join(process.cwd(), 'src', 'cont
 const localBase = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4174'
 const urls = new Set([
   localBase,
-  `${localBase}/resume/lenggujian-resume-zh.pdf`,
-  `${localBase}/resume/lenggujian-resume-en.pdf`,
+  `${localBase}/resume/lenggujian-resume.pdf`,
   `${localBase}/robots.txt`,
   'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/',
-  'https://anonkuki.github.io/my-anime-rank/',
 ])
 
 const failures = []
@@ -18,8 +16,8 @@ for (const item of snapshot.repositories) {
   if (item.url !== expected || !item.verifiedAt) failures.push(`${expected} -> invalid build-time API snapshot`)
   else console.log(`SNAPSHOT ${item.verifiedAt} ${item.url}`)
 }
-if (snapshot.repositories.length !== 6) failures.push('https://github.com/anonkuki -> incomplete repository snapshot')
-else console.log('SNAPSHOT profile confirmed through six repository API responses')
+if (snapshot.repositories.length !== 5) failures.push('https://github.com/anonkuki -> incomplete repository snapshot')
+else console.log('SNAPSHOT profile confirmed through five approved repository API responses')
 for (const url of urls) {
   try {
     const response = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15_000), headers: { 'User-Agent': 'lenggujian-portfolio-link-check' } })

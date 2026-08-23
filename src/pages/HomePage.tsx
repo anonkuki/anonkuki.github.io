@@ -14,22 +14,20 @@ export function HomePage() {
 
   useEffect(() => {
     if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    let context: { revert: () => void } | undefined
-    void import('gsap').then(({ gsap }) => {
-      context = gsap.context(() => {
-        gsap.fromTo('.hero-copy > *', { y: 34, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85, stagger: 0.09, ease: 'power3.out' })
-        document.querySelectorAll('.reveal').forEach((element) => {
-          const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-              gsap.fromTo(element, { y: 42, opacity: 0 }, { y: 0, opacity: 1, duration: 0.75, ease: 'power3.out' })
-              observer.disconnect()
-            }
-          }, { threshold: 0.12 })
-          observer.observe(element)
-        })
-      }, mainRef)
-    })
-    return () => context?.revert()
+    const elements = Array.from(mainRef.current?.querySelectorAll('.reveal') ?? [])
+    if (typeof window.IntersectionObserver !== 'function') {
+      elements.forEach((element) => element.classList.add('is-visible'))
+      return
+    }
+    const observer = new window.IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-visible')
+        observer.unobserve(entry.target)
+      })
+    }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' })
+    elements.forEach((element) => observer.observe(element))
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -44,11 +42,11 @@ export function HomePage() {
           <p className="hero-lead">{zh ? '我是冷家健，专注 Agent Harness、智能文档与真实业务系统。把模型能力放进确定性工程边界，让复杂任务真的走到交付。' : 'I am lenggujian. I build Agent harnesses, intelligent document workflows, and real business systems—placing model capability inside deterministic engineering boundaries.'}</p>
           <div className="hero-actions">
             <button className="button primary" type="button" onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}>{zh ? '查看精选作品' : 'Explore selected work'}<ArrowDownRight size={18} /></button>
-            <a className="button ghost" href={zh ? '/resume/lenggujian-resume-zh.pdf' : '/resume/lenggujian-resume-en.pdf'} download>{zh ? '下载脱敏简历' : 'Download resume'}<ArrowRight size={18} /></a>
+            <a className="button ghost" href="/resume/lenggujian-resume.pdf" download>{zh ? '下载简历' : 'Download resume'}<ArrowRight size={18} /></a>
           </div>
           <div className="hero-proof">
             <span><b>02</b>{zh ? '段行业实习' : 'domain internships'}</span>
-            <span><b>06</b>{zh ? '个公开仓库' : 'public repositories'}</span>
+            <span><b>05</b>{zh ? '个精选开源项目' : 'selected open-source projects'}</span>
             <span><b>03</b>{zh ? '个可交互案例' : 'interactive cases'}</span>
           </div>
         </div>

@@ -24,7 +24,7 @@ pnpm build
 pnpm privacy:scan
 ```
 
-The privacy gate scans source, static assets, both sanitized PDF resumes, and the production build for phone numbers, private IPs, absolute Windows paths, and locally generated confidential-title guards.
+The privacy gate scans source, static assets, the approved resume, and the production build for private IPs, absolute Windows paths, and locally generated confidential-title guards. A phone number is permitted only inside the byte-identical user-approved resume PDF.
 
 ## Deployment
 

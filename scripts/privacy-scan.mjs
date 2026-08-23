@@ -1,6 +1,7 @@
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 
 const cwd = process.cwd()
 const roots = ['src', 'scripts', 'tests', 'e2e', 'public', 'dist', '.github', 'README.md', 'PUBLICATION_MANIFEST.md', 'package.json', 'playwright.config.ts', 'vite.config.ts']
@@ -17,6 +18,24 @@ const patterns = [
   { kind: 'private-ip', regex: /\b(?:10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2})\b/g },
   { kind: 'local-windows-path', regex: /\b[A-Za-z]:[\\/][^\s"'<>)]*/gi },
 ]
+const approvedResumeSha256 = 'F39BACDC4AF98CD19420EB1A25FBD0EAAAE105F036B8F4F35016F3989347CE01'
+const approvedResumeRelative = path.join('resume', 'lenggujian-resume.pdf')
+const approvedResumeCandidates = [
+  { file: path.join(cwd, 'public', approvedResumeRelative), required: true },
+  { file: path.join(cwd, 'dist', approvedResumeRelative), required: false },
+]
+const authenticApprovedResumes = new Set()
+for (const candidate of approvedResumeCandidates) {
+  try {
+    const bytes = await fs.readFile(candidate.file)
+    const actual = createHash('sha256').update(bytes).digest('hex').toUpperCase()
+    if (actual === approvedResumeSha256) authenticApprovedResumes.add(path.resolve(candidate.file).toLowerCase())
+    else findings.push({ file: candidate.file, kind: 'approved-resume-hash-mismatch' })
+  } catch {
+    if (candidate.required) findings.push({ file: candidate.file, kind: 'approved-resume-missing' })
+  }
+}
+const isApprovedResume = (file) => authenticApprovedResumes.has(path.resolve(file).toLowerCase())
 
 async function walk(target) {
   let stat
@@ -43,6 +62,7 @@ for (const root of roots) {
     } else continue
 
     for (const { kind, regex } of patterns) {
+      if (kind === 'mainland-phone' && isApprovedResume(file)) continue
       regex.lastIndex = 0
       if (regex.test(content)) findings.push({ file, kind })
     }

@@ -17,12 +17,10 @@
     "sync:github": "node scripts/sync-github.mjs",
     "audit:projects": "node scripts/audit-projects.mjs",
     "privacy:scan": "node scripts/privacy-scan.mjs",
-    "resume:pdf": "node scripts/generate-resume-pdf.mjs",
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm privacy:scan"
   },
   "dependencies": {
     "@fontsource-variable/space-grotesk": "latest",
-    "gsap": "latest",
     "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
