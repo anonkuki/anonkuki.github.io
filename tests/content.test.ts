@@ -10,6 +10,14 @@ describe('public portfolio content contract', () => {
       'regulated-report-agent',
       'cross-platform-field-suite',
     ])
+    expect(featuredCases[0]).toMatchObject({
+      organization: { zh: '北京清研灵智' },
+      period: { zh: '2026.03 — 2026.06' },
+    })
+    expect(featuredCases[1]).toMatchObject({
+      organization: { zh: '北京科兴' },
+      period: { zh: '2026.07 — 至今' },
+    })
   })
 
   it('presents four cover-led cards while preserving five approved repository links', () => {

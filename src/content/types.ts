@@ -15,6 +15,9 @@ export interface CaseStudy {
   index: string
   title: LocalizedText
   eyebrow: LocalizedText
+  organization?: LocalizedText
+  period?: LocalizedText
+  role?: LocalizedText
   summary: LocalizedText
   problem: LocalizedText
   architecture: LocalizedText

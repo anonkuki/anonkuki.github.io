@@ -32,6 +32,7 @@ export function CasePage() {
           </div>
           <div className="case-story-copy">
             <p className="eyebrow">CASE {item.index} · {text(item.eyebrow)}</p>
+            {item.organization && item.period && item.role && <div className="case-engagement case-engagement-detail"><strong>{text(item.organization)}</strong><span>{text(item.period)}</span><small>{text(item.role)}</small></div>}
             <h1>{text(item.title)}</h1>
             <p className="case-question">{question}</p>
             <p className="case-lead">{text(item.summary)}</p>

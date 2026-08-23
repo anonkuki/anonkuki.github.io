@@ -139,6 +139,11 @@ img { max-width: 100%; }
 .featured-card:nth-child(3) { grid-column: 3 / span 8; rotate: -.7deg; }
 .featured-card:hover { z-index: 3; rotate: 0deg; }
 .case-number { color: var(--blue); font-size: 1.6rem; font-weight: 400; }
+.case-engagement { margin: 9px 0 13px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 11px; color: var(--blue); font-size: .62rem; letter-spacing: .055em; text-transform: uppercase; }
+.case-engagement strong { padding: 4px 7px; color: var(--paper-white); background: var(--blue); font-weight: 500; }
+.case-engagement span { padding-bottom: 2px; border-bottom: 1px solid var(--blue); font-variant-numeric: tabular-nums; }
+.case-engagement-detail { margin: 16px 0 24px; gap: 9px 14px; }
+.case-engagement-detail small { flex-basis: 100%; color: var(--ink); font-size: .67rem; letter-spacing: .02em; text-transform: none; }
 .case-copy h3 { margin: 0 0 18px; color: var(--blue); font-size: clamp(1.65rem, 2.5vw, 2.8rem); font-weight: 420; line-height: 1.1; letter-spacing: -.035em; }
 .case-copy > p:last-of-type { margin: 0 0 24px; color: var(--ink); line-height: 1.75; }
 .case-blueprint-mini { position: relative; min-height: 280px; margin: 0; overflow: hidden; color: var(--blue); border: 1px solid var(--line); background-color: #eef4ff; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 18px 18px; }

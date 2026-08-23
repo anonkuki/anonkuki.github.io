@@ -2,7 +2,11 @@ import { expect, test } from '@playwright/test'
 
 test('home, language, public work, contact, and resume are reachable', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('把复杂行业流程')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('让 AI 不止会回答')
+  await expect(page.getByText('北京交通大学 · 人工智能专业 · 2027届')).toBeVisible()
+  await expect(page.getByText('200亿+', { exact: true })).toBeVisible()
+  await expect(page.locator('.featured-list').getByText('北京清研灵智', { exact: true })).toBeVisible()
+  await expect(page.locator('.featured-list').getByText('北京科兴', { exact: true })).toBeVisible()
   await expect(page.getByTestId('public-project')).toHaveCount(4)
   await expect(page.locator('.scrapbook-stage')).toHaveCount(1)
   await expect(page.locator('.project-polaroid')).toHaveCount(4)
@@ -19,7 +23,8 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
   const zhResume = page.getByRole('link', { name: /下载简历/ })
   await expect(zhResume).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
   await page.getByRole('button', { name: 'Switch to English' }).click()
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('traceable, shippable AI systems')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('AI should do more than answer')
+  await expect(page.getByText('20B+', { exact: true })).toBeVisible()
   await expect(page.getByRole('link', { name: /Download resume/ })).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
 
 })

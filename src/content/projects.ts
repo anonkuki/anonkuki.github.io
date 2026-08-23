@@ -25,6 +25,9 @@ export const featuredCases: CaseStudy[] = [
     index: '01',
     title: { zh: '投标文档 Agent Harness', en: 'Tender Document Agent Harness' },
     eyebrow: { zh: '多智能体 · RAG · 文档工程', en: 'Multi-agent · RAG · Document engineering' },
+    organization: { zh: '北京清研灵智', en: 'Qingyan Lingzhi, Beijing' },
+    period: { zh: '2026.03 — 2026.06', en: 'Mar 2026 — Jun 2026' },
+    role: { zh: 'AI 全栈开发实习生（Agent 方向）', en: 'AI Full-stack Engineering Intern · Agent Systems' },
     summary: {
       zh: '把高规范、长流程的投标响应工作拆成可观察、可恢复、可人工接管的执行图。',
       en: 'Turning a regulated, long-running tender workflow into an observable, recoverable execution graph with human checkpoints.',
@@ -58,6 +61,9 @@ export const featuredCases: CaseStudy[] = [
     index: '02',
     title: { zh: '受监管报告智能体', en: 'Regulated Report Agent' },
     eyebrow: { zh: '确定性规则 · 受约束 LLM · 证据链', en: 'Deterministic rules · Constrained LLM · Evidence lineage' },
+    organization: { zh: '北京科兴', en: 'Sinovac, Beijing' },
+    period: { zh: '2026.07 — 至今', en: 'Jul 2026 — Present' },
+    role: { zh: 'AI 全栈应用开发实习生（智能文档 Agent 方向）', en: 'AI Full-stack Engineering Intern · Document Agents' },
     summary: {
       zh: '让事实、数值与模板由程序控制，让模型只在证据边界内表达和辅助审核。',
       en: 'Keeping facts, values, and templates deterministic while constraining the model to evidence-grounded writing and review.',
