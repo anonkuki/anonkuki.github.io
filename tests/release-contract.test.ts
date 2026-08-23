@@ -21,6 +21,11 @@ describe('public release contract', () => {
     expect(css).toMatch(/\.skip-link:focus\s*\{[^}]*translateY\(0\)/s)
   })
 
+  it('keeps the capability-atlas introduction below its heading', async () => {
+    const css = await readFile(path.join(root, 'src', 'styles.css'), 'utf8')
+    expect(css).toMatch(/\.atlas-section \.section-intro\s*\{[^}]*margin:\s*0 0 58px 70px/s)
+  })
+
   it('pins the approved resume exception to the uploaded PDF hash', async () => {
     const scanner = await readFile(path.join(root, 'scripts', 'privacy-scan.mjs'), 'utf8')
     expect(scanner).toContain(approvedResumeSha256)

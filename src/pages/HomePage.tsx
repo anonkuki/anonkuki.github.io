@@ -112,8 +112,8 @@ export function HomePage() {
       </section>
 
       <section className="atlas-section section-pad" id="atlas">
-        <SectionHeading index="03" eyebrow="DELIVERY ATLAS" title={zh ? '涉密经历，不展示秘密；展示方法。' : 'Confidential work stays private. The engineering method does not.'} />
-        <p className="section-intro reveal">{zh ? '匿名聚合仅用于说明本人覆盖过的工程问题。数量来自本地项目审计，重复版本、数据集和第三方骨架不计入。' : 'These anonymous clusters describe engineering problems I have handled. Counts come from a local audit that excludes duplicates, datasets, and third-party starters.'}</p>
+        <SectionHeading index="03" eyebrow="DELIVERY ATLAS" title={zh ? '做过的项目，沉淀成可复用的工程能力。' : 'Projects become reusable engineering capabilities.'} />
+        <p className="section-intro reveal">{zh ? '从 Agent、文档智能到跨端交付，这里按六类能力整理我参与和完成的项目实践。' : 'From agents and document intelligence to cross-platform delivery, this atlas groups my work into six engineering capabilities.'}</p>
         <div className="atlas-grid">
           {capabilityGroups.map((group, index) => (
             <article className="atlas-card reveal" style={{ '--group-color': group.color } as React.CSSProperties} key={group.id}>

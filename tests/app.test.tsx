@@ -42,6 +42,9 @@ describe('portfolio experience', () => {
     expect(screen.queryByText(/★/)).not.toBeInTheDocument()
     expect(screen.queryByText('可审计数字员工材料包')).not.toBeInTheDocument()
     expect(screen.queryByText('动画作品个人排行')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '做过的项目，沉淀成可复用的工程能力。' })).toBeInTheDocument()
+    expect(screen.getByText('从 Agent、文档智能到跨端交付，这里按六类能力整理我参与和完成的项目实践。')).toBeInTheDocument()
+    expect(screen.queryByText(/不展示秘密/)).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: '下载简历' })).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
   })
 
@@ -54,6 +57,7 @@ describe('portfolio experience', () => {
     expect(screen.queryByText('沉浸式写作工作台')).not.toBeInTheDocument()
     expect(screen.getAllByText(/01 repository$/)).toHaveLength(2)
     expect(screen.queryByText(/01 repositories$/)).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Projects become reusable engineering capabilities.' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Download resume' })).toHaveAttribute('href', '/resume/lenggujian-resume.pdf')
   })
 
