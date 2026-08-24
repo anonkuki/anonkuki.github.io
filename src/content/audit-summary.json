@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "auditedAt": "2026-08-23",
+  "auditedAt": "2026-08-24",
   "candidateCount": 82,
   "mappedProjectCount": 62,
   "excludedCount": 20,
@@ -11,6 +11,13 @@
     "science-visual": 10,
     "qa-delivery": 5,
     "enterprise": 4
+  },
+  "prototypeDelivery": {
+    "qualifiedSystemCount": 37,
+    "activeBuildDays": 27,
+    "oneOrTwoSystemDays": 25,
+    "averagePerActiveDay": 1.37,
+    "basis": "Local source audit: maintained source or complete demo; duplicates, backups, empty folders, utilities, and build-only packages excluded."
   },
   "guarantees": {
     "everyCandidateHasDisposition": true,

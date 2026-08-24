@@ -1,14 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { capabilityGroups, featuredCases, publicProjects } from '../src/content/projects'
+import { capabilityGroups, featuredCases, prototypeDeliveryAudit, publicProjects } from '../src/content/projects'
 import auditSummary from '../src/content/audit-summary.json'
 import githubSnapshot from '../src/content/github-snapshot.json'
 
 describe('public portfolio content contract', () => {
-  it('publishes exactly three ordered flagship cases', () => {
+  it('publishes only the two real internship agent deliveries as flagship cases', () => {
     expect(featuredCases.map((item) => item.slug)).toEqual([
       'tender-agent-harness',
       'regulated-report-agent',
-      'ai-copilot-writing-platform',
     ])
     expect(featuredCases[0]).toMatchObject({
       organization: { zh: '北京清研灵智' },
@@ -17,11 +16,21 @@ describe('public portfolio content contract', () => {
     expect(featuredCases[1]).toMatchObject({
       organization: { zh: '北京科兴' },
       period: { zh: '2026.07 — 至今' },
+      title: { zh: '注册材料报告 Agent' },
     })
-    expect(featuredCases[2]).toMatchObject({
-      title: { zh: 'AI Copilot 智能写作平台' },
-      demo: 'writing',
+    expect(featuredCases.every((item) => item.organization && item.period && item.role)).toBe(true)
+    expect(featuredCases.every((item) => item.delivered.zh && item.impact.zh && item.patterns.zh && item.maintainability.zh)).toBe(true)
+    expect(featuredCases.some((item) => item.slug === 'ai-copilot-writing-platform')).toBe(false)
+  })
+
+  it('publishes source-audited prototype delivery throughput without exposing project names', () => {
+    expect(prototypeDeliveryAudit).toEqual({
+      qualifiedSystemCount: 37,
+      activeBuildDays: 27,
+      oneOrTwoSystemDays: 25,
+      averagePerActiveDay: 1.37,
     })
+    expect(auditSummary.prototypeDelivery.basis).toContain('maintained source or complete demo')
   })
 
   it('presents four cover-led cards while preserving five approved repository links', () => {

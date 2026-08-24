@@ -4,6 +4,7 @@ import path from 'node:path'
 const cwd = process.cwd()
 const todayInChina = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai' }).format(new Date())
 const projectRoot = path.resolve(process.env.PORTFOLIO_PROJECT_ROOT || path.join(cwd, '..'))
+const prototypeRoot = path.join(projectRoot, 'kimi')
 const privateDir = path.join(cwd, '.private')
 const summaryPath = path.join(cwd, 'src', 'content', 'audit-summary.json')
 const publicRepos = new Set([
@@ -143,6 +144,21 @@ const decisions = inspected.map((item) => {
 const groupCounts = Object.fromEntries(groupDefinitions.map(({ id }) => [id, decisions.filter((item) => item.group === id).length]))
 const mappedProjectCount = decisions.filter((item) => item.status === 'mapped').length
 const excludedCount = decisions.length - mappedProjectCount
+const prototypeSystems = decisions.filter((item) => item.status === 'mapped' && item.path.startsWith(`${prototypeRoot}${path.sep}`))
+const prototypeBuildDates = new Map()
+for (const item of prototypeSystems) {
+  const metadata = await fs.stat(item.path)
+  const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai' }).format(metadata.birthtime)
+  prototypeBuildDates.set(date, (prototypeBuildDates.get(date) || 0) + 1)
+}
+const prototypeActiveBuildDays = prototypeBuildDates.size
+const prototypeDelivery = {
+  qualifiedSystemCount: prototypeSystems.length,
+  activeBuildDays: prototypeActiveBuildDays,
+  oneOrTwoSystemDays: [...prototypeBuildDates.values()].filter((count) => count >= 1 && count <= 2).length,
+  averagePerActiveDay: prototypeActiveBuildDays ? Number((prototypeSystems.length / prototypeActiveBuildDays).toFixed(2)) : 0,
+  basis: 'Local source audit: maintained source or complete demo; duplicates, backups, empty folders, utilities, and build-only packages excluded.',
+}
 const summary = {
   schemaVersion: 1,
   auditedAt: todayInChina(),
@@ -150,6 +166,7 @@ const summary = {
   mappedProjectCount,
   excludedCount,
   groupCounts,
+  prototypeDelivery,
   guarantees: {
     everyCandidateHasDisposition: decisions.every((item) => item.status && item.reason),
     everyMappedProjectHasGroup: decisions.filter((item) => item.status === 'mapped').every((item) => item.group),

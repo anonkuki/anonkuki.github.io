@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowUpRight, ShieldCheck, TimerReset, Workflow } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Boxes, CircleCheckBig, ShieldCheck, TimerReset, Workflow, Wrench } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { featuredCases } from '../content/projects'
 import { CaseDemo } from '../features/demos/CaseDemo'
@@ -11,9 +11,7 @@ export function CasePage() {
   const zh = language === 'zh'
   const question = item.demo === 'tender'
     ? (zh ? '如果一份复杂投标文档，能够自己追踪证据呢？' : 'What if a complex tender could trace its own evidence?')
-    : item.demo === 'regulated'
-      ? (zh ? '如果每个结论，都能沿证据链回到来源呢？' : 'What if every conclusion could travel back to its source?')
-      : (zh ? '如果长篇写作，也能像软件工程一样被编排和检查呢？' : 'What if long-form writing could be orchestrated and reviewed like software?')
+    : (zh ? '如果每个结论，都能沿证据链回到来源呢？' : 'What if every conclusion could travel back to its source?')
 
   return (
     <main id="main-content" className={`case-page case-${item.accent}`}>
@@ -45,14 +43,23 @@ export function CasePage() {
         </div>
       </section>
 
+      <section className="case-impact-panel section-pad">
+        <p className="eyebrow">BUSINESS OUTCOME</p>
+        <h2>{zh ? '效率与业务结果' : 'Efficiency and business outcome'}</h2>
+        <p>{text(item.impact)}</p>
+      </section>
+
       <section className="case-demo-section section-pad">
         <div className="case-section-copy"><p className="eyebrow">INTERACTIVE PROOF</p><h2>{zh ? '亲手推进一次虚拟流程' : 'Advance a synthetic workflow yourself'}</h2><p>{zh ? '演示只表达系统设计，不复刻任何客户界面、材料或数据。' : 'This demo communicates system design without reproducing any client interface, material, or data.'}</p></div>
         <CaseDemo kind={item.demo} language={language} />
       </section>
 
       <section className="case-narrative section-pad">
+        <article><span><CircleCheckBig /></span><p className="eyebrow">DELIVERED</p><h2>{zh ? '实际完成' : 'What I delivered'}</h2><p>{text(item.delivered)}</p></article>
         <article><span><Workflow /></span><p className="eyebrow">PROBLEM</p><h2>{zh ? '问题不是生成，而是闭环' : 'The problem is the loop, not generation'}</h2><p>{text(item.problem)}</p></article>
         <article><span><ArrowUpRight /></span><p className="eyebrow">ARCHITECTURE</p><h2>{zh ? '让每一步可替换、可观察' : 'Make every step replaceable and observable'}</h2><p>{text(item.architecture)}</p></article>
+        <article><span><Boxes /></span><p className="eyebrow">DESIGN PATTERNS</p><h2>{zh ? '设计模式' : 'Design patterns'}</h2><p>{text(item.patterns)}</p></article>
+        <article><span><Wrench /></span><p className="eyebrow">MAINTAINABILITY</p><h2>{zh ? '可维护性' : 'Maintainability'}</h2><p>{text(item.maintainability)}</p></article>
         <article><span><ShieldCheck /></span><p className="eyebrow">RELIABILITY</p><h2>{zh ? '不把概率输出当作事实' : 'Never treat probabilistic output as fact'}</h2><p>{text(item.reliability)}</p></article>
         <article><span><TimerReset /></span><p className="eyebrow">PERFORMANCE</p><h2>{zh ? '为重复工作设计复用路径' : 'Design reuse paths for repeated work'}</h2><p>{text(item.performance)}</p></article>
       </section>

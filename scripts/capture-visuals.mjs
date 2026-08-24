@@ -31,9 +31,11 @@ for (const profile of profiles) {
     })
     await page.waitForTimeout(250)
     await page.screenshot({ path: path.join(output, 'desktop-full-page.png'), fullPage: true })
+    await page.addStyleTag({ content: '.site-header,.skip-link{display:none!important}' })
+    await page.locator('.work-section').screenshot({ path: path.join(output, 'selected-work-desktop.png') })
+    await page.locator('.experience-section').screenshot({ path: path.join(output, 'experience-desktop.png') })
     await page.locator('.open-section').scrollIntoViewIfNeeded()
     await page.locator('.open-section img').evaluateAll(async (images) => Promise.all(images.map(async (image) => { if (!image.complete) await new Promise((resolve) => image.addEventListener('load', resolve, { once: true })); await image.decode().catch(() => {}) })))
-    await page.addStyleTag({ content: '.site-header,.skip-link{display:none!important}' })
     await page.locator('.open-section').screenshot({ path: path.join(output, 'projects-desktop.png') })
   }
   if (profile.name === 'mobile-390x844') {
@@ -45,6 +47,12 @@ for (const profile of profiles) {
     await page.locator('.open-section img').evaluateAll(async (images) => Promise.all(images.map(async (image) => { if (!image.complete) await new Promise((resolve) => image.addEventListener('load', resolve, { once: true })); await image.decode().catch(() => {}) })))
     await page.addStyleTag({ content: '.site-header,.skip-link{display:none!important}' })
     await page.locator('.open-section').screenshot({ path: path.join(output, 'projects-mobile.png') })
+    await page.locator('.work-section').scrollIntoViewIfNeeded()
+    await page.waitForTimeout(250)
+    await page.locator('.work-section').screenshot({ path: path.join(output, 'selected-work-mobile.png') })
+    await page.locator('.experience-section').scrollIntoViewIfNeeded()
+    await page.waitForTimeout(250)
+    await page.locator('.experience-section').screenshot({ path: path.join(output, 'experience-mobile.png') })
   }
   await context.close()
 }
@@ -53,7 +61,10 @@ const caseContext = await browser.newContext({ viewport: { width: 1440, height: 
 const casePage = await caseContext.newPage()
 await casePage.goto(`${baseURL}/#/work/tender-agent-harness`, { waitUntil: 'networkidle' })
 await casePage.locator('.intro-overlay').waitFor({ state: 'detached', timeout: 3_000 }).catch(() => {})
+await casePage.addStyleTag({ content: '.site-header,.skip-link{display:none!important}' })
 await casePage.locator('.case-reference-board').screenshot({ path: path.join(output, 'case-board-desktop.png') })
+await casePage.locator('.case-impact-panel').screenshot({ path: path.join(output, 'case-impact-desktop.png') })
+await casePage.locator('.case-narrative').screenshot({ path: path.join(output, 'case-engineering-desktop.png') })
 await casePage.screenshot({ path: path.join(output, 'case-full-page.png'), fullPage: true })
 await caseContext.close()
 
@@ -64,4 +75,4 @@ await caseMobilePage.locator('.intro-overlay').waitFor({ state: 'detached', time
 await caseMobilePage.locator('.case-reference-board').screenshot({ path: path.join(output, 'case-board-mobile.png') })
 await caseMobileContext.close()
 await browser.close()
-console.log(`Captured ${profiles.length + 7} visual QA screenshots in ${output}`)
+console.log(`Captured ${profiles.length + 13} visual QA screenshots in ${output}`)

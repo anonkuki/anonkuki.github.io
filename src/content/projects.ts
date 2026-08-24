@@ -19,6 +19,13 @@ const publicMetadata = (repo: string, fallback: { language: string; demoUrl?: st
 
 const auditedCount = (id: keyof typeof auditSummary.groupCounts) => auditSummary.groupCounts[id]
 
+export const prototypeDeliveryAudit = {
+  qualifiedSystemCount: auditSummary.prototypeDelivery.qualifiedSystemCount,
+  activeBuildDays: auditSummary.prototypeDelivery.activeBuildDays,
+  oneOrTwoSystemDays: auditSummary.prototypeDelivery.oneOrTwoSystemDays,
+  averagePerActiveDay: auditSummary.prototypeDelivery.averagePerActiveDay,
+}
+
 export const featuredCases: CaseStudy[] = [
   {
     slug: 'tender-agent-harness',
@@ -29,29 +36,47 @@ export const featuredCases: CaseStudy[] = [
     period: { zh: '2026.03 — 2026.06', en: 'Mar 2026 — Jun 2026' },
     role: { zh: 'AI 全栈开发实习生（Agent 方向）', en: 'AI Full-stack Engineering Intern · Agent Systems' },
     summary: {
-      zh: '把高规范、长流程的投标响应工作拆成可观察、可恢复、可人工接管的执行图。',
-      en: 'Turning a regulated, long-running tender workflow into an observable, recoverable execution graph with human checkpoints.',
+      zh: '作为项目负责人，把过去依赖十几人连续数周协作的投标材料生产，重构为 Agent 执行主流程、人在关键节点确认的端到端交付系统。',
+      en: 'As project lead, I rebuilt a tender-production process that previously required 10+ people over several weeks into an end-to-end system where agents execute and people approve critical decisions.',
+    },
+    delivered: {
+      zh: '完成招标解析、评分点与需求矩阵、RAG 检索、分章写作、架构图与效果图生成、合规审查、人工回写、DOCX 组装、实时进度与任务恢复，形成从输入材料到可提交文档的完整闭环。',
+      en: 'Delivered tender parsing, scoring-point and requirement matrices, RAG, section drafting, diagram generation, compliance review, human edits, DOCX assembly, live progress, and task recovery.',
+    },
+    impact: {
+      zh: '将原流程中十几人连续数周投入的机械编写、漏项排查和反复改版交给 Agent，人负责投标策略与最终判断；需求覆盖矩阵、模板对齐和审查重写共同提升响应效率、评分点覆盖率与得分表现。',
+      en: 'Agents absorb weeks of mechanical drafting, omission checks, and repeated revisions previously spread across 10+ people, while humans focus on bid strategy. Coverage matrices and review-rewrite loops improve throughput, scoring-point coverage, and bid quality.',
     },
     problem: {
       zh: '长文档不只是“生成文字”：需求要完整提取，章节要服从模板，图表要落到 Word，最终结果还要经过结构与合规校验。',
       en: 'Long-form delivery is more than text generation: requirements, templates, diagrams, Word assembly, and compliance checks must stay aligned.',
     },
     architecture: {
-      zh: '以 LangGraph 状态图组织解析、检索、写作、图表与审查节点；工具层隔离文档、检索和渲染能力；持久化状态支持分步确认与任务恢复。',
-      en: 'A LangGraph state graph orchestrates parsing, retrieval, writing, diagrams, and review. Tool adapters isolate document, retrieval, and rendering concerns.',
+      zh: 'FastAPI 承载任务与流式进度，LangGraph 状态图编排解析、检索、写作、图表和审查节点；ChromaDB 提供材料检索，python-docx 与 Word 后处理负责最终工件。',
+      en: 'FastAPI serves tasks and streaming progress; a LangGraph state graph orchestrates parsing, retrieval, drafting, diagrams, and review; ChromaDB and the DOCX toolchain produce the final artifact.',
+    },
+    patterns: {
+      zh: '采用状态机 + 流水线组织长任务，以 Strategy 路由不同生成路径，以 Adapter/Tool 层隔离模型、检索、渲染和文档能力，并在关键节点设置 Human-in-the-loop 检查点。',
+      en: 'A state machine and pipeline organize long-running work; strategy routing selects generation paths; adapters isolate models, retrieval, rendering, and documents; HITL checkpoints guard critical decisions.',
+    },
+    maintainability: {
+      zh: '节点、工具、Prompt、模板与校验器分层，单一能力可替换而不重写整条链路；高频验收、截图与离线交付方法进一步沉淀为可复用 Skill，减少后续项目重复开发。',
+      en: 'Nodes, tools, prompts, templates, and validators are separated so one capability can change without rewriting the workflow. Repeated acceptance and delivery practices become reusable Skills.',
     },
     reliability: {
-      zh: 'review-rewrite 回路、输入签名缓存、结构后验校验与图表降级路径共同控制长任务风险。',
-      en: 'Review-rewrite loops, signature-based caching, structural post-validation, and rendering fallbacks control long-running task risk.',
+      zh: 'review-rewrite 回路、章节检查点、任务恢复、并发限流、失败重试、结构后验校验与图表降级路径共同控制长任务风险，人工可随时接管。',
+      en: 'Review-rewrite loops, checkpoints, recovery, bounded concurrency, retries, structural post-validation, and rendering fallbacks control long-running task risk with human takeover available.',
     },
     performance: {
-      zh: '重复解析与生成结果按关键输入签名复用；页面与演示按路由懒加载。',
-      en: 'Repeated parsing and generation reuse signature-keyed results; case UI and demos are route-lazy-loaded.',
+      zh: '章节、数据库表与图表采用有界并发生成；历史任务可复用已生成图表与中间工件，失败只补生成缺失项；快速骨架模式可在零 LLM 调用下先产出结构。',
+      en: 'Sections, tables, and diagrams use bounded parallelism. Prior artifacts can be resumed, failures regenerate only missing items, and a zero-LLM skeleton mode produces structure first.',
     },
     stack: ['Python', 'FastAPI', 'LangGraph', 'ChromaDB', 'Vue 3', 'Playwright', 'python-docx'],
     metrics: [
-      { value: '7', label: { zh: '可执行阶段', en: 'executable stages' }, evidence: { zh: '简历与当前源码链路', en: 'Resume and current source workflow' }, state: 'source-backed' },
-      { value: 'HITL', label: { zh: '人工确认与接管', en: 'human checkpoints' }, evidence: { zh: '交互式工作流', en: 'Interactive workflow' }, state: 'source-backed' },
+      { value: '10+人', label: { zh: '原流程协作规模', en: 'people in the former workflow' }, evidence: { zh: '用户提供的业务基线', en: 'User-provided operating baseline' }, state: 'user-provided' },
+      { value: '数周', label: { zh: '原流程典型周期', en: 'former cycle length' }, evidence: { zh: '用户提供的业务基线', en: 'User-provided operating baseline' }, state: 'user-provided' },
+      { value: '7', label: { zh: '核心可执行阶段', en: 'core executable stages' }, evidence: { zh: '简历与当前源码链路', en: 'Resume and current source workflow' }, state: 'source-backed' },
+      { value: '37套', label: { zh: '合格原型与案例系统', en: 'qualified prototype and case systems' }, evidence: { zh: '本地源码审计，排除重复与空壳', en: 'Local source audit excluding duplicates and empty shells' }, state: 'verified-current' },
     ],
     demo: 'tender',
     accent: 'blue',
@@ -59,71 +84,56 @@ export const featuredCases: CaseStudy[] = [
   {
     slug: 'regulated-report-agent',
     index: '02',
-    title: { zh: '受监管报告智能体', en: 'Regulated Report Agent' },
+    title: { zh: '注册材料报告 Agent', en: 'Regulatory Submission Report Agent' },
     eyebrow: { zh: '确定性规则 · 受约束 LLM · 证据链', en: 'Deterministic rules · Constrained LLM · Evidence lineage' },
     organization: { zh: '北京科兴', en: 'Sinovac, Beijing' },
     period: { zh: '2026.07 — 至今', en: 'Jul 2026 — Present' },
     role: { zh: 'AI 全栈应用开发实习生（智能文档 Agent 方向）', en: 'AI Full-stack Engineering Intern · Document Agents' },
     summary: {
-      zh: '让事实、数值与模板由程序控制，让模型只在证据边界内表达和辅助审核。',
-      en: 'Keeping facts, values, and templates deterministic while constraining the model to evidence-grounded writing and review.',
+      zh: '作为项目技术支撑，参与设计并独立开发注册材料报告智能体，把 Excel 数据到六份受控 Word 报告及 94 项审核串成可追溯的业务流水线。',
+      en: 'As technical support for the project, I designed and independently developed a regulatory-report agent that connects Excel data, six controlled Word reports, and a 94-item review into one traceable workflow.',
+    },
+    delivered: {
+      zh: '完成多类 Excel 适配、确定性预检、人工数据确认、六模板合同、正文/表格/趋势图生成、Word 自动化、94 项规则审核、法规 RAG、来源证据 JSON 与逐页验收链路。',
+      en: 'Delivered Excel adapters, deterministic prechecks, human confirmation, six template contracts, narrative/table/chart generation, Word automation, 94-rule review, regulatory RAG, evidence JSON, and page-level acceptance.',
+    },
+    impact: {
+      zh: '把人工核数、套模板、排版、逐项审核和来源追查变成可重复执行的流程，减少遗漏与格式返工；规则门禁、证据链和人工审批为提升注册材料一次审核通过率与审核效率提供直接支撑。',
+      en: 'Manual reconciliation, templating, layout, item-by-item review, and source tracing become repeatable operations. Rule gates, evidence lineage, and approvals directly support a higher first-pass review rate and faster regulatory review.',
     },
     problem: {
       zh: '专业报告既要忠实读取 Excel，也要保持受控 Word 模板，还必须解释每个结论来自哪里。',
       en: 'Professional reports must faithfully ingest Excel, preserve controlled Word templates, and explain where every conclusion came from.',
     },
     architecture: {
-      zh: '自研工作流串联解析、预检、人工确认、模板组装、规则审核与证据输出；SourceRef 将字段绑定到文件、Sheet 与单元格位置。',
-      en: 'A custom workflow connects ingestion, prechecks, confirmation, template assembly, review, and evidence output. SourceRef binds fields to workbook locations.',
+      zh: 'FastAPI 工作流服务串联材料分类、解析、确认、生成与审核；统一领域模型承载稳定性数据，Repository 持久化任务状态，SourceRef 将关键字段绑定到文件、Sheet 与单元格。',
+      en: 'A FastAPI workflow service connects classification, parsing, confirmation, generation, and review. A unified domain model carries stability data, repositories persist task state, and SourceRef binds fields to workbook cells.',
+    },
+    patterns: {
+      zh: '使用 Adapter 统一不同 Excel 结构，Repository 隔离 SQLite，Template Contract 限定六类报告允许的结构改动，Rule Engine 与受约束 LLM 分工，显式状态机控制确认、生成、失败与重试。',
+      en: 'Adapters normalize workbook variants; repositories isolate SQLite; template contracts bound six report types; a rule engine and constrained LLM divide responsibilities; an explicit state machine controls approval and retry.',
+    },
+    maintainability: {
+      zh: '解析、领域模型、报告生成、规则审核、知识库与存储分包；六个模板合同和 94 项规则目录集中管理，支持单报告重新生成与规则独立演进，业务变化不必推翻整条链路。',
+      en: 'Ingestion, domain models, reporting, rules, knowledge, and storage are modular. Six template contracts and the 94-rule catalog are centralized, enabling single-report regeneration and independent rule evolution.',
     },
     reliability: {
-      zh: '确定性规则优先于模型判断；哈希锁定输入，模板合同限制改动范围，失败可停止、重试与重新生成。',
-      en: 'Deterministic rules outrank model judgment; input hashes, template contracts, and stop/retry/regenerate states guard delivery.',
+      zh: '确定性规则优先于模型判断；SHA-256 锁定输入身份，单元格级血缘验证事实，模板合同限制改动范围，缺图或待确认数据会阻断生成，失败可停止、重试与回到人工确认。',
+      en: 'Deterministic rules outrank model judgment. SHA-256 identities, cell-level lineage, template contracts, blocking gates for missing evidence, and stop/retry/confirm states protect delivery.',
     },
     performance: {
-      zh: '统一领域模型减少重复解析；检索索引与报告工件按任务隔离。',
-      en: 'A unified domain model avoids repeated parsing while retrieval indexes and report artifacts remain task-isolated.',
+      zh: 'Excel 一次解析后由统一领域模型复用到六份报告；法规向量索引缓存避免重复嵌入，工件按任务隔离，单份报告可独立重生成，避免整批重跑。',
+      en: 'Excel is parsed once and reused across six reports. Cached regulatory embeddings avoid repeat work, artifacts remain task-isolated, and one report can regenerate without rerunning the batch.',
     },
     stack: ['Python', 'FastAPI', 'React', 'TypeScript', 'SQLite', 'openpyxl', 'python-docx', 'Microsoft Word'],
     metrics: [
+      { value: '6份', label: { zh: '受控 Word 报告', en: 'controlled Word reports' }, evidence: { zh: '当前模板合同与生成链路', en: 'Current template contracts and generation workflow' }, state: 'source-backed' },
+      { value: '94/94', label: { zh: '注册审核目录覆盖', en: 'review catalog coverage' }, evidence: { zh: '当前规则目录与测试', en: 'Current rule catalog and tests' }, state: 'source-backed' },
       { value: 'SHA-256', label: { zh: '输入与工件锁定', en: 'input and artifact locking' }, evidence: { zh: '当前数据模型与交付脚本', en: 'Current domain model and delivery scripts' }, state: 'source-backed' },
       { value: 'Cell', label: { zh: '单元格级来源定位', en: 'cell-level source location' }, evidence: { zh: 'SourceRef 数据结构', en: 'SourceRef data structure' }, state: 'source-backed' },
     ],
     demo: 'regulated',
     accent: 'cyan',
-  },
-  {
-    slug: 'ai-copilot-writing-platform',
-    index: '03',
-    title: { zh: 'AI Copilot 智能写作平台', en: 'AI Copilot Writing Platform' },
-    eyebrow: { zh: '多智能体 · 长篇写作 · RAG', en: 'Multi-agent · Long-form writing · RAG' },
-    summary: {
-      zh: '把选题、大纲、资料检索、分章生成与一致性检查组织成可持续迭代的写作工作台。',
-      en: 'Organizing ideation, outlining, retrieval, chapter drafting, and consistency checks into an iterative writing workspace.',
-    },
-    problem: {
-      zh: '长篇写作容易在多轮生成中丢失结构、设定与引用关系，单次对话很难维持全局一致性。',
-      en: 'Long-form writing easily loses structure, world state, and source relationships across generations; a single chat cannot preserve the whole work.',
-    },
-    architecture: {
-      zh: '以多智能体工作流拆分规划、检索、写作与审查角色，结构化项目状态承载大纲、章节和资料上下文，RAG 为生成过程补充可追溯素材。',
-      en: 'A multi-agent workflow separates planning, retrieval, drafting, and review while structured project state carries outlines, chapters, and source context.',
-    },
-    reliability: {
-      zh: '章节级状态、明确的工作流阶段和一致性检查让生成过程可暂停、可重做，也避免把一次模型输出直接当作最终稿。',
-      en: 'Chapter-level state, explicit workflow stages, and consistency checks make generation resumable and revisable instead of treating one model response as final.',
-    },
-    performance: {
-      zh: '按项目与章节复用上下文，避免每轮重新装载全部资料；桌面端工作台将复杂生成流程收束到同一界面。',
-      en: 'Project- and chapter-level context reuse avoids reloading all source material on every turn while the desktop workspace keeps the workflow in one interface.',
-    },
-    stack: ['TypeScript', 'React', 'Electron', 'Multi-Agent', 'RAG', 'LLM API'],
-    metrics: [
-      { value: 'Public', label: { zh: '公开仓库可核验', en: 'publicly verifiable repository' }, evidence: { zh: 'GitHub 当前公开仓库', en: 'Current public GitHub repository' }, state: 'public-repo' },
-      { value: 'RAG', label: { zh: '资料增强写作', en: 'retrieval-augmented writing' }, evidence: { zh: '公开项目技术栈', en: 'Public project stack' }, state: 'public-repo' },
-    ],
-    demo: 'writing',
-    accent: 'ink',
   },
 ]
 

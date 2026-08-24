@@ -13,10 +13,11 @@ Status: awaiting final privacy approval before the first public push.
 
 ## Project content
 
-- Three flagship case studies use anonymous product names and synthetic front-end demonstrations.
+- Two flagship case studies focus on source-backed internship Agent deliveries and use synthetic front-end demonstrations.
 - Four user-approved public repositories are linked across three cover-led open-source cards; the two club sites share one card and metadata is synchronized at build time.
 - `duolinban-campus` is presented as a fourth, local-project card with no private repository link.
 - The capability atlas publishes only aggregate counts across six engineering domains.
+- The Qingyan experience publishes an aggregate local audit of 37 qualified prototype/case systems; names, paths, and private business content remain local.
 - Private project names, client names, internal screenshots, business data, and the local audit ledger are excluded.
 
 ## Public assets

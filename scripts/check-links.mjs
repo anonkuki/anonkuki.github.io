@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const snapshot = JSON.parse(await readFile(path.join(process.cwd(), 'src', 'content', 'github-snapshot.json'), 'utf8'))
-const localBase = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4174'
+const localBase = process.env.PORTFOLIO_BASE_URL || 'http://127.0.0.1:4173'
 const urls = new Set([
   localBase,
   `${localBase}/resume/lenggujian-resume.pdf`,

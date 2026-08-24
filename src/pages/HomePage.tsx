@@ -6,7 +6,7 @@ import { CaseBlueprint } from '../components/CaseBlueprint'
 import { HeroArtwork } from '../components/HeroArtwork'
 import { ProjectVisual } from '../components/ProjectVisual'
 import { SectionHeading } from '../components/SectionHeading'
-import { capabilityGroups, featuredCases, publicProjects, qingyanSubproject } from '../content/projects'
+import { capabilityGroups, featuredCases, prototypeDeliveryAudit, publicProjects, qingyanSubproject } from '../content/projects'
 import { useLanguage } from '../i18n/LanguageContext'
 import { copyText } from '../utils/copyText'
 
@@ -70,21 +70,24 @@ export function HomePage() {
       <div className="ticker" aria-hidden="true"><div>AGENT HARNESS · RAG · HUMAN IN THE LOOP · DOCX ENGINEERING · CROSS-PLATFORM · EVIDENCE BEFORE CLAIMS ·&nbsp;</div></div>
 
       <section className="work-section section-pad" id="work">
-        <SectionHeading index="01" eyebrow={zh ? 'SELECTED WORK' : 'SELECTED WORK'} title={zh ? '三个复杂系统，三种可靠性答案' : 'Three complex systems, three reliability answers'} />
+        <SectionHeading index="01" eyebrow="SELECTED WORK" title={zh ? '两套真实落地 Agent，重构高成本业务流程' : 'Two production agents, rebuilding high-cost workflows'} />
         <div className="featured-list featured-collage">
-          <div className="featured-board-notes" aria-hidden="true"><span>systems / proof / delivery</span><i>↘</i><b>03 selected cases</b></div>
+          <div className="featured-board-notes" aria-hidden="true"><span>systems / proof / delivery</span><i>↘</i><b>02 real-world agent systems</b></div>
           {featuredCases.map((item, index) => (
             <article className={`featured-card featured-polaroid reveal accent-${item.accent}`} key={item.slug}>
-              <div className="case-number">{item.index}</div>
-              <div className="case-copy">
-                <p className="eyebrow">{text(item.eyebrow)}</p>
-                {item.organization && item.period && <div className="case-engagement"><strong>{text(item.organization)}</strong><span>{text(item.period)}</span></div>}
-                <h3>{text(item.title)}</h3>
-                <p>{text(item.summary)}</p>
-                <div className="tag-row">{item.stack.slice(0, 5).map((tag) => <span key={tag}>{tag}</span>)}</div>
-              </div>
-              <CaseBlueprint demo={item.demo} />
-              <Link className="case-link" to={`/work/${item.slug}`} aria-label={`${text(item.title)} - ${zh ? '查看案例' : 'View case'}`}><ArrowRight /></Link>
+              <Link className="featured-card-link" to={`/work/${item.slug}`} aria-label={`${text(item.title)} - ${zh ? '查看案例' : 'View case'}`}>
+                <div className="case-number">{item.index}</div>
+                <div className="case-copy">
+                  <p className="eyebrow">{text(item.eyebrow)}</p>
+                  {item.organization && item.period && <div className="case-engagement"><strong>{text(item.organization)}</strong><span>{text(item.period)}</span></div>}
+                  <h3>{text(item.title)}</h3>
+                  <p className="case-summary">{text(item.summary)}</p>
+                  <p className="case-impact"><span>IMPACT</span>{text(item.impact)}</p>
+                  <div className="tag-row">{item.stack.slice(0, 5).map((tag) => <span key={tag}>{tag}</span>)}</div>
+                </div>
+                <CaseBlueprint demo={item.demo} />
+                <span className="case-link" aria-hidden="true"><ArrowRight /></span>
+              </Link>
               <span className="tape" style={{ rotate: `${index % 2 ? 3 : -3}deg` }} />
             </article>
           ))}
@@ -131,8 +134,8 @@ export function HomePage() {
       <section className="experience-section section-pad" id="experience">
         <SectionHeading index="04" eyebrow="EXPERIENCE" title={zh ? '从原型，到可验证的系统' : 'From prototypes to verifiable systems'} />
         <div className="timeline">
-          <article className="timeline-item reveal"><time>{zh ? '2026.07 — 至今' : 'JUL 2026 — PRESENT'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京科兴 · AI 全栈应用开发实习' : 'Sinovac · AI Full-stack Engineering Intern'}</h3><p>{zh ? '参与并独立开发受监管报告智能体，聚焦确定性数据链、Word 模板工程、规则审核与来源追溯。' : 'Building regulated-report agents around deterministic data, Word template engineering, rule-based review, and provenance.'}</p></div></article>
-          <article className="timeline-item reveal"><time>{zh ? '2026.03 — 2026.06' : 'MAR 2026 — JUN 2026'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京清研灵智 · AI 全栈开发实习' : 'Qingyan Lingzhi · AI Full-stack Engineering Intern'}</h3><p>{zh ? '负责投标文档 Agent Harness，并持续交付多类业务原型、案例系统与前端验收。' : 'Led a tender-document Agent Harness and delivered business prototypes, case systems, and front-end acceptance work.'}</p><aside className="experience-subproject"><header><span>{text(qingyanSubproject.label)}</span><b>OTHER DELIVERY</b></header><h4>{text(qingyanSubproject.title)}</h4><p>{text(qingyanSubproject.summary)}</p><div className="tag-row">{qingyanSubproject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></aside></div></article>
+          <article className="timeline-item reveal"><time>{zh ? '2026.07 — 至今' : 'JUL 2026 — PRESENT'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京科兴 · AI 全栈应用开发实习' : 'Sinovac · AI Full-stack Engineering Intern'}</h3><p>{zh ? '参与设计并独立开发注册材料报告 Agent，聚焦确定性数据链、Word 模板工程、94 项规则审核与来源追溯。' : 'Designed and independently developed a regulatory submission report agent around deterministic data, Word template engineering, a 94-item review, and provenance.'}</p></div></article>
+          <article className="timeline-item reveal"><time>{zh ? '2026.03 — 2026.06' : 'MAR 2026 — JUN 2026'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京清研灵智 · AI 全栈开发实习' : 'Qingyan Lingzhi · AI Full-stack Engineering Intern'}</h3><p>{zh ? '负责投标文档 Agent Harness，并将高频开发与验收流程沉淀为可复用 Skill，持续交付业务原型、案例系统和前端验收证据。' : 'Led a tender-document Agent Harness, turned recurring development and acceptance practices into reusable Skills, and continuously delivered prototypes, case systems, and acceptance evidence.'}</p><aside className="delivery-audit"><header><span>{zh ? '原型与案例系统交付' : 'PROTOTYPE & CASE DELIVERY'}</span><b>SOURCE AUDITED</b></header><div className="delivery-stats"><div className="delivery-stat"><strong>{prototypeDeliveryAudit.qualifiedSystemCount}{zh ? '套' : ''}</strong><span>{zh ? '合格系统' : 'qualified systems'}</span></div><div className="delivery-stat"><strong>{prototypeDeliveryAudit.oneOrTwoSystemDays} / {prototypeDeliveryAudit.activeBuildDays}</strong><span>{zh ? '活跃构建日保持 1–2 套' : 'build days at 1–2 systems'}</span></div><div className="delivery-stat"><strong>{prototypeDeliveryAudit.averagePerActiveDay}{zh ? '套' : ''}</strong><span>{zh ? '每个活跃构建日' : 'per active build day'}</span></div></div><p>{zh ? '按本地源码与目录首建时间重新审计：只计入有维护源码或完整演示的系统，备份、重复版本、空目录和纯构建包均排除。' : 'Re-audited from local source and directory creation dates. Only maintained source or complete demos count; backups, duplicates, empty folders, and build-only packages are excluded.'}</p></aside><aside className="experience-subproject"><header><span>{text(qingyanSubproject.label)}</span><b>OTHER DELIVERY</b></header><h4>{text(qingyanSubproject.title)}</h4><p>{text(qingyanSubproject.summary)}</p><div className="tag-row">{qingyanSubproject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></aside></div></article>
           <article className="timeline-item reveal"><time>2023.09 — 2027.06</time><div><span className="timeline-pin" /><h3>{zh ? '北京交通大学 · 人工智能' : 'Beijing Jiaotong University · Artificial Intelligence'}</h3><p>{zh ? '计算机科学与技术学院；计算机设计大赛北京市三等奖、京彩大创 OPC 大赛北京市一等奖。' : 'School of Computer Science and Technology; Beijing awards in computer design and OPC innovation competitions.'}</p></div></article>
         </div>
       </section>
@@ -155,7 +158,7 @@ export function HomePage() {
       <footer className="contact-section section-pad" id="contact">
         <div className="contact-doodle" aria-hidden="true"><Sparkles /><span>let's build<br />something<br />reliable</span></div>
         <p className="eyebrow">{zh ? '求职方向：AI工程应用开发/agent开发' : 'TARGET ROLES: AI APPLICATION ENGINEERING / AGENT DEVELOPMENT'}</p>
-        <h2>{zh ? '期待与你共事。' : 'Let’s work together.'}</h2>
+        <h2>Thank you</h2>
         <div className="contact-actions">
           {contacts.map(({ id, label, value, icon: Icon }) => {
             const copied = copiedContact === id

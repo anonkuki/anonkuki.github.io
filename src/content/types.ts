@@ -2,7 +2,7 @@ export type Language = 'zh' | 'en'
 
 export type LocalizedText = Record<Language, string>
 
-export type EvidenceState = 'verified-current' | 'source-backed' | 'public-repo'
+export type EvidenceState = 'verified-current' | 'source-backed' | 'public-repo' | 'user-provided'
 
 export interface EvidenceMetric {
   value: string
@@ -19,8 +19,12 @@ export interface CaseStudy {
   period?: LocalizedText
   role?: LocalizedText
   summary: LocalizedText
+  delivered: LocalizedText
+  impact: LocalizedText
   problem: LocalizedText
   architecture: LocalizedText
+  patterns: LocalizedText
+  maintainability: LocalizedText
   reliability: LocalizedText
   performance: LocalizedText
   stack: string[]

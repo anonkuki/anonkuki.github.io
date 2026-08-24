@@ -35,8 +35,8 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
 
 })
 
-test('all flagship routes load and the tender demo completes deterministically', async ({ page }) => {
-  const slugs = ['tender-agent-harness', 'regulated-report-agent', 'ai-copilot-writing-platform']
+test('both internship flagship routes load and the tender demo completes deterministically', async ({ page }) => {
+  const slugs = ['tender-agent-harness', 'regulated-report-agent']
   for (const slug of slugs) {
     await page.goto(`/#/work/${slug}`)
     await expect(page.getByLabel(/交互式虚拟演示|Interactive synthetic demo/)).toBeVisible()
@@ -55,11 +55,10 @@ test('all flagship routes load and the tender demo completes deterministically',
   await expect(page.getByText('等待运行', { exact: true })).toBeVisible()
 })
 
-test('all three collage case entries remain clickable above overlapping sheets', async ({ page }) => {
+test('both collage case entries remain clickable above overlapping sheets', async ({ page }) => {
   const entries = [
     ['投标文档 Agent Harness - 查看案例', '#/work/tender-agent-harness'],
-    ['受监管报告智能体 - 查看案例', '#/work/regulated-report-agent'],
-    ['AI Copilot 智能写作平台 - 查看案例', '#/work/ai-copilot-writing-platform'],
+    ['注册材料报告 Agent - 查看案例', '#/work/regulated-report-agent'],
   ]
   for (const [name, route] of entries) {
     await page.goto('/')

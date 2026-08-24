@@ -1,6 +1,6 @@
 # lenggujian portfolio
 
-An original bilingual portfolio for an AI full-stack / Agent engineer. The site uses an immersive blueprint-notebook visual language, three deterministic front-end case demos, a build-time GitHub metadata snapshot, and an anonymous capability atlas generated from a local project audit.
+An original bilingual portfolio for an AI full-stack / Agent engineer. The site uses an immersive blueprint-notebook visual language, two deterministic internship-case demos, a build-time GitHub metadata snapshot, and an anonymous capability atlas generated from a local project audit.
 
 ## Local development
 
@@ -24,7 +24,7 @@ pnpm build
 pnpm privacy:scan
 ```
 
-The privacy gate scans source, static assets, the approved resume, and the production build for private IPs, absolute Windows paths, and locally generated confidential-title guards. A phone number is permitted only inside the byte-identical user-approved resume PDF.
+The privacy gate scans source, static assets, the approved resume, and the production build for private IPs, absolute Windows paths, and locally generated confidential-title guards. Only the explicitly approved public phone number is allowlisted.
 
 ## Deployment
 
