@@ -54,6 +54,15 @@ export function HomePage() {
           <p className="hero-kicker">{zh ? '北京交通大学 · 人工智能专业 · 2027届' : 'BJTU · ARTIFICIAL INTELLIGENCE · CLASS OF 2027'}</p>
           <h1>{zh ? <><span className="title-line">让 AI 不止会回答，</span><span className="title-line">而是真的</span><span className="title-line">完成工作。</span></> : 'AI should do more than answer. It should finish the work.'}</h1>
           <p className="hero-lead">{zh ? '我是冷家健，北京交通大学人工智能专业 2027 届本科生。我用 AI 贯穿需求、架构、编码、测试与交付，独立推进真实业务系统从 0→1 开发并落地；累计 AI 协作 Token 200亿+，也把验证过的工程方法设计、沉淀为可复用 Skills。' : 'I am lenggujian, a 2027 AI undergraduate at Beijing Jiaotong University. I use AI across requirements, architecture, implementation, verification, and delivery to take real systems from zero to launch. My cumulative AI-assisted workload exceeds 20B tokens, and I turn proven engineering methods into reusable Skills.'}</p>
+          <aside className="ai-toolchain" aria-label={zh ? 'AI 工具链' : 'AI toolchain'}>
+            <header><span>AI TOOLCHAIN</span><i>{zh ? '日常工作流' : 'DAILY WORKFLOW'}</i></header>
+            <div className="ai-tool-list">
+              <span><b>Codex</b><small>BUILD / VERIFY</small></span>
+              <span><b>Claude Code</b><small>PAIR / REVIEW</small></span>
+              <span><b>Kimi</b><small>CONTEXT / PROTOTYPE</small></span>
+            </div>
+            <p>{zh ? '日常以多 Coding 智能体协同推进：我负责方案设计与任务拆解，让不同智能体并行实现、交叉审查，再用测试与验收证据统一收口交付。' : 'I orchestrate multi-coding-agent collaboration every day: I own solution design and task decomposition, run agents in parallel, cross-review their outputs, and converge through tests and acceptance evidence.'}</p>
+          </aside>
           <div className="hero-actions">
             <button className="button primary" type="button" onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}>{zh ? '查看精选作品' : 'Explore selected work'}<ArrowDownRight size={18} /></button>
             <a className="button ghost" href="/resume/lenggujian-resume.pdf" download>{zh ? '下载简历' : 'Download resume'}<ArrowRight size={18} /></a>
