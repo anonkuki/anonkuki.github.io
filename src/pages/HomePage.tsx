@@ -53,7 +53,7 @@ export function HomePage() {
             <span>AI-Native Builder</span><span>Agent Harness</span><span>Skill Designer</span>
           </div>
           <p className="hero-kicker">{zh ? '北京交通大学 · 人工智能专业 · 2027届' : 'BJTU · ARTIFICIAL INTELLIGENCE · CLASS OF 2027'}</p>
-          <h1>{zh ? <><span className="title-line">让 AI 不止会回答，</span><span className="title-line">而是真的</span><span className="title-line">完成工作。</span></> : 'AI should do more than answer. It should finish the work.'}</h1>
+          <h1 className="hero-mission-title">{zh ? <><span className="title-line">寻找企业实际工作流程中</span><span className="title-line">一切可以进行提效的环节，</span><span className="title-line">把人从繁琐的重复性劳动中</span><span className="title-line">解放出来，专注决策与指挥。</span></> : 'Find every opportunity to improve real workflows. Free people from repetitive work to focus on decisions and direction.'}</h1>
           <p className="hero-lead">{zh ? '我是冷家健，北京交通大学人工智能专业 2027 届本科生。我用 AI 贯穿需求、架构、编码、测试与交付，独立推进真实业务系统从 0→1 开发并落地；再把验证过的方法沉淀为可复用 Skills。' : 'I am lenggujian, a 2027 AI undergraduate at Beijing Jiaotong University. I use AI across requirements, architecture, implementation, verification, and delivery to take real systems from zero to launch—then turn proven methods into reusable Skills.'}</p>
           <div className="hero-actions">
             <button className="button primary" type="button" onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}>{zh ? '查看精选作品' : 'Explore selected work'}<ArrowDownRight size={18} /></button>

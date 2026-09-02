@@ -26,7 +26,7 @@ describe('portfolio experience', () => {
   it('renders four cover-led cards without GitHub star counts', () => {
     const { container } = renderRoute()
     expect(screen.getByText('北京交通大学 · 人工智能专业 · 2027届')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: '让 AI 不止会回答，而是真的完成工作。' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '寻找企业实际工作流程中一切可以进行提效的环节，把人从繁琐的重复性劳动中解放出来，专注决策与指挥。' })).toBeInTheDocument()
     expect(screen.getByText(/真实业务系统从 0→1 开发并落地/)).toBeInTheDocument()
     expect(screen.getByText('200亿+', { selector: '.hero-proof b' })).toBeInTheDocument()
     expect(screen.getByText('累计 AI 协作 Token')).toBeInTheDocument()
@@ -115,7 +115,7 @@ describe('portfolio experience', () => {
     renderRoute()
     await user.click(screen.getByRole('button', { name: 'Switch to English' }))
     expect(screen.getByText('BJTU · ARTIFICIAL INTELLIGENCE · CLASS OF 2027')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'AI should do more than answer. It should finish the work.' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Find every opportunity to improve real workflows. Free people from repetitive work to focus on decisions and direction.' })).toBeInTheDocument()
     expect(screen.getByText('20B+', { selector: '.hero-proof b' })).toBeInTheDocument()
     expect(screen.getByLabelText('AI toolchain')).toBeInTheDocument()
     expect(screen.getByText(/multi-coding-agent collaboration/)).toBeInTheDocument()
