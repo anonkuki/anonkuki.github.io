@@ -8,6 +8,7 @@ const urls = new Set([
   `${localBase}/resume/lenggujian-resume.pdf`,
   `${localBase}/robots.txt`,
   'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/',
+  'http://62.234.83.174:8080/',
 ])
 
 const failures = []

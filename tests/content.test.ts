@@ -61,7 +61,12 @@ describe('public portfolio content contract', () => {
       'duolinban-campus',
     ])
     expect(publicProjects.every((item) => item.covers?.length)).toBe(true)
-    expect(publicProjects.find((item) => item.repo === 'zuoyou-club-sites')?.repositories).toHaveLength(2)
+    const clubSites = publicProjects.find((item) => item.repo === 'zuoyou-club-sites')
+    expect(clubSites?.repositories).toHaveLength(2)
+    expect(clubSites?.links.map((link) => link.demoUrl)).toEqual([
+      'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/',
+      'http://62.234.83.174:8080/',
+    ])
     expect(new Set(githubSnapshot.repositories.map((item) => item.repo)).size).toBe(4)
     expect(githubSnapshot.repositories.some((item) => item.repo === 'OPC-TEST')).toBe(false)
     expect(githubSnapshot.repositories.some((item) => item.repo === 'duolinban-campus')).toBe(false)

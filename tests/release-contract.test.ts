@@ -68,6 +68,12 @@ describe('public release contract', () => {
     expect(playwrightConfig).toContain('reuseExistingServer: false')
   })
 
+  it('checks both anime-club live sites before release', async () => {
+    const checker = await readFile(path.join(root, 'scripts', 'check-links.mjs'), 'utf8')
+    expect(checker).toContain('https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/')
+    expect(checker).toContain('http://62.234.83.174:8080/')
+  })
+
   it('pins the approved resume exception to the uploaded PDF hash', async () => {
     const scanner = await readFile(path.join(root, 'scripts', 'privacy-scan.mjs'), 'utf8')
     expect(scanner).toContain(approvedResumeSha256)

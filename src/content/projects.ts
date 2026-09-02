@@ -184,7 +184,7 @@ export const publicProjects: PublicProject[] = [
     ],
     links: [
       { repo: 'Zuoyou-Anime-Club-2025-Annual-Summary', label: { zh: '年度星际报告', en: 'Annual report' }, url: 'https://github.com/anonkuki/Zuoyou-Anime-Club-2025-Annual-Summary', demoUrl: 'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/' },
-      { repo: 'zuoyou_web', label: { zh: '冒险者公会', en: 'Adventurer guild' }, url: 'https://github.com/anonkuki/zuoyou_web' },
+      { repo: 'zuoyou_web', label: { zh: '冒险者公会', en: 'Adventurer guild' }, url: 'https://github.com/anonkuki/zuoyou_web', demoUrl: 'http://62.234.83.174:8080/' },
     ],
   },
   {

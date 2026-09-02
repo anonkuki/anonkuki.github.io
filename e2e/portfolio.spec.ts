@@ -24,7 +24,16 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
   }
   await expect(page.locator('.case-blueprint-mini .blueprint-runner')).toHaveCount(2)
   await expect(page.getByText(/★/)).toHaveCount(0)
-  await expect(page.getByRole('link', { name: /在线演示/ })).toHaveCount(1)
+  const liveDemos = page.getByRole('link', { name: /在线演示/ })
+  await expect(liveDemos).toHaveCount(2)
+  await expect(page.getByRole('link', { name: '年度星际报告 在线演示' })).toHaveAttribute(
+    'href',
+    'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/',
+  )
+  await expect(page.getByRole('link', { name: '冒险者公会 在线演示' })).toHaveAttribute(
+    'href',
+    'http://62.234.83.174:8080/',
+  )
   const emailCopy = page.getByRole('button', { name: /邮箱.*gujianleng@gmail\.com.*点击复制/ })
   await expect(emailCopy).toBeVisible()
   await emailCopy.click()

@@ -65,6 +65,7 @@ describe('portfolio experience', () => {
     expect(screen.getByRole('heading', { name: '佐佑动漫社 · 双站作品集' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: '年度星际报告 GitHub' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: '冒险者公会 GitHub' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '冒险者公会 在线演示' })).toHaveAttribute('href', 'http://62.234.83.174:8080/')
     expect(screen.queryByRole('link', { name: '多邻班 GitHub' })).not.toBeInTheDocument()
     expect(screen.getByText(/本地完整项目/)).toBeInTheDocument()
     expect(screen.queryByText(/★/)).not.toBeInTheDocument()
