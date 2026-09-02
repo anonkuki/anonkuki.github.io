@@ -25,6 +25,7 @@ const approvedPublicPhones = new Set(['17808200776'])
 // Re-exporting, replacing, or adding public media must trigger a fresh review and hash update.
 const approvedPublicMediaSha256 = new Map([
   ['avatar-line.webp', '5DFBA82B0568F60CA5F87708203234F290D96E075C4EE83CBE1113F7F81F82B1'],
+  ['brands/qingyan-group.png', '87BE3445C3346EE790839F7F26BD934CD209460ECA156F379AFCCE0C5C581F1D'],
   ['project-covers/ai-writing.webp', '81FD204817DF57AE825AAB2056376D61E78ACC7558D934360EBDA021564F9676'],
   ['project-covers/club-guild.webp', '9E512EA446B01070F91D811542991DDE1EA3971902081CD02E0EC4DEE38841EC'],
   ['project-covers/club-space.webp', 'FB9F0B044A716BB79546B7B829326990F10C1CFBF365A628720703633B71C2B4'],

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CapabilityConstellation } from '../components/CapabilityConstellation'
 import { CaseBlueprint } from '../components/CaseBlueprint'
+import { CompanyBrand } from '../components/CompanyBrand'
 import { HeroArtwork } from '../components/HeroArtwork'
 import { ProjectVisual } from '../components/ProjectVisual'
 import { SectionHeading } from '../components/SectionHeading'
@@ -53,7 +54,11 @@ export function HomePage() {
           </div>
           <p className="hero-kicker">{zh ? '北京交通大学 · 人工智能专业 · 2027届' : 'BJTU · ARTIFICIAL INTELLIGENCE · CLASS OF 2027'}</p>
           <h1>{zh ? <><span className="title-line">让 AI 不止会回答，</span><span className="title-line">而是真的</span><span className="title-line">完成工作。</span></> : 'AI should do more than answer. It should finish the work.'}</h1>
-          <p className="hero-lead">{zh ? '我是冷家健，北京交通大学人工智能专业 2027 届本科生。我用 AI 贯穿需求、架构、编码、测试与交付，独立推进真实业务系统从 0→1 开发并落地；累计 AI 协作 Token 200亿+，也把验证过的工程方法设计、沉淀为可复用 Skills。' : 'I am lenggujian, a 2027 AI undergraduate at Beijing Jiaotong University. I use AI across requirements, architecture, implementation, verification, and delivery to take real systems from zero to launch. My cumulative AI-assisted workload exceeds 20B tokens, and I turn proven engineering methods into reusable Skills.'}</p>
+          <p className="hero-lead">{zh ? '我是冷家健，北京交通大学人工智能专业 2027 届本科生。我用 AI 贯穿需求、架构、编码、测试与交付，独立推进真实业务系统从 0→1 开发并落地；再把验证过的方法沉淀为可复用 Skills。' : 'I am lenggujian, a 2027 AI undergraduate at Beijing Jiaotong University. I use AI across requirements, architecture, implementation, verification, and delivery to take real systems from zero to launch—then turn proven methods into reusable Skills.'}</p>
+          <div className="hero-actions">
+            <button className="button primary" type="button" onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}>{zh ? '查看精选作品' : 'Explore selected work'}<ArrowDownRight size={18} /></button>
+            <a className="button ghost" href="/resume/lenggujian-resume.pdf" download>{zh ? '下载简历' : 'Download resume'}<ArrowRight size={18} /></a>
+          </div>
           <aside className="ai-toolchain" aria-label={zh ? 'AI 工具链' : 'AI toolchain'}>
             <header><span>AI TOOLCHAIN</span><i>{zh ? '日常工作流' : 'DAILY WORKFLOW'}</i></header>
             <div className="ai-tool-list">
@@ -61,17 +66,13 @@ export function HomePage() {
               <span><b>Claude Code</b><small>PAIR / REVIEW</small></span>
               <span><b>Kimi</b><small>CONTEXT / PROTOTYPE</small></span>
             </div>
-            <p>{zh ? '日常以多 Coding 智能体协同推进：我负责方案设计与任务拆解，让不同智能体并行实现、交叉审查，再用测试与验收证据统一收口交付。' : 'I orchestrate multi-coding-agent collaboration every day: I own solution design and task decomposition, run agents in parallel, cross-review their outputs, and converge through tests and acceptance evidence.'}</p>
           </aside>
-          <div className="hero-actions">
-            <button className="button primary" type="button" onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}>{zh ? '查看精选作品' : 'Explore selected work'}<ArrowDownRight size={18} /></button>
-            <a className="button ghost" href="/resume/lenggujian-resume.pdf" download>{zh ? '下载简历' : 'Download resume'}<ArrowRight size={18} /></a>
-          </div>
           <div className="hero-proof">
             <span><b>{zh ? '200亿+' : '20B+'}</b>{zh ? '累计 AI 协作 Token' : 'cumulative AI-assisted tokens'}</span>
             <span><b>0→1</b>{zh ? 'AI 系统开发与落地' : 'AI systems built and shipped'}</span>
             <span><b>Skills</b>{zh ? '设计 · 验证 · 沉淀' : 'designed · validated · reused'}</span>
           </div>
+          <p className="hero-evidence-note">{zh ? 'Token 口径：Codex、Claude Code 与 Kimi 的个人持续使用记录汇总。' : 'Token scope: consolidated personal usage records across Codex, Claude Code, and Kimi.'}</p>
         </div>
         <HeroArtwork />
       </section>
@@ -88,7 +89,7 @@ export function HomePage() {
                 <div className="case-number">{item.index}</div>
                 <div className="case-copy">
                   <p className="eyebrow">{text(item.eyebrow)}</p>
-                  {item.organization && item.period && <div className="case-engagement"><strong>{text(item.organization)}</strong><span>{text(item.period)}</span></div>}
+                  {item.organization && item.period && <div className="case-engagement">{item.brand && <CompanyBrand brand={item.brand} />}<strong>{text(item.organization)}</strong><span>{text(item.period)}</span></div>}
                   <h3>{text(item.title)}</h3>
                   <p className="case-summary">{text(item.summary)}</p>
                   <p className="case-impact"><span>IMPACT</span>{text(item.impact)}</p>
@@ -143,14 +144,19 @@ export function HomePage() {
       <section className="experience-section section-pad" id="experience">
         <SectionHeading index="04" eyebrow="EXPERIENCE" title={zh ? '从原型，到可验证的系统' : 'From prototypes to verifiable systems'} />
         <div className="timeline">
-          <article className="timeline-item reveal"><time>{zh ? '2026.07 — 至今' : 'JUL 2026 — PRESENT'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京科兴 · AI 全栈应用开发实习' : 'Sinovac · AI Full-stack Engineering Intern'}</h3><p>{zh ? '参与设计并独立开发注册材料报告 Agent，聚焦确定性数据链、Word 模板工程、94 项规则审核与来源追溯。' : 'Designed and independently developed a regulatory submission report agent around deterministic data, Word template engineering, a 94-item review, and provenance.'}</p></div></article>
-          <article className="timeline-item reveal"><time>{zh ? '2026.03 — 2026.06' : 'MAR 2026 — JUN 2026'}</time><div><span className="timeline-pin" /><h3>{zh ? '北京清研灵智 · AI 全栈开发实习' : 'Qingyan Lingzhi · AI Full-stack Engineering Intern'}</h3><p>{zh ? '负责投标文档 Agent Harness，并将高频开发与验收流程沉淀为可复用 Skill，持续交付业务原型、案例系统和前端验收证据。' : 'Led a tender-document Agent Harness, turned recurring development and acceptance practices into reusable Skills, and continuously delivered prototypes, case systems, and acceptance evidence.'}</p><aside className="delivery-audit"><header><span>{zh ? '原型与案例系统交付' : 'PROTOTYPE & CASE DELIVERY'}</span><b>SOURCE AUDITED</b></header><div className="delivery-stats"><div className="delivery-stat"><strong>{prototypeDeliveryAudit.qualifiedSystemCount}{zh ? '套' : ''}</strong><span>{zh ? '合格系统' : 'qualified systems'}</span></div><div className="delivery-stat"><strong>{prototypeDeliveryAudit.oneOrTwoSystemDays} / {prototypeDeliveryAudit.activeBuildDays}</strong><span>{zh ? '活跃构建日保持 1–2 套' : 'build days at 1–2 systems'}</span></div><div className="delivery-stat"><strong>{prototypeDeliveryAudit.averagePerActiveDay}{zh ? '套' : ''}</strong><span>{zh ? '每个活跃构建日' : 'per active build day'}</span></div></div><p>{zh ? '按本地源码与目录首建时间重新审计：只计入有维护源码或完整演示的系统，备份、重复版本、空目录和纯构建包均排除。' : 'Re-audited from local source and directory creation dates. Only maintained source or complete demos count; backups, duplicates, empty folders, and build-only packages are excluded.'}</p></aside><aside className="experience-subproject"><header><span>{text(qingyanSubproject.label)}</span><b>OTHER DELIVERY</b></header><h4>{text(qingyanSubproject.title)}</h4><p>{text(qingyanSubproject.summary)}</p><div className="tag-row">{qingyanSubproject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></aside></div></article>
+          <article className="timeline-item reveal"><time>{zh ? '2026.07 — 至今' : 'JUL 2026 — PRESENT'}</time><div><span className="timeline-pin" /><div className="timeline-company-heading"><CompanyBrand brand={featuredCases[1].brand!} compact /><h3>{zh ? '北京科兴 · AI 全栈应用开发实习' : 'Sinovac · AI Full-stack Engineering Intern'}</h3></div><p>{zh ? '参与设计并独立开发注册材料报告 Agent，聚焦确定性数据链、Word 模板工程、94 项规则审核与来源追溯。' : 'Designed and independently developed a regulatory submission report agent around deterministic data, Word template engineering, a 94-item review, and provenance.'}</p></div></article>
+          <article className="timeline-item reveal"><time>{zh ? '2026.03 — 2026.06' : 'MAR 2026 — JUN 2026'}</time><div><span className="timeline-pin" /><CompanyBrand brand={featuredCases[0].brand!} compact /><h3>{zh ? '北京清研灵智 · AI 全栈开发实习' : 'Qingyan Lingzhi · AI Full-stack Engineering Intern'}</h3><p>{zh ? '负责投标文档 Agent Harness，并将高频开发与验收流程沉淀为可复用 Skill，持续交付业务原型、案例系统和前端验收证据。' : 'Led a tender-document Agent Harness, turned recurring development and acceptance practices into reusable Skills, and continuously delivered prototypes, case systems, and acceptance evidence.'}</p><aside className="delivery-audit"><header><span>{zh ? '原型与案例系统交付' : 'PROTOTYPE & CASE DELIVERY'}</span><b>SOURCE AUDITED</b></header><div className="delivery-stats"><div className="delivery-stat"><strong>{prototypeDeliveryAudit.qualifiedSystemCount}{zh ? '套' : ''}</strong><span>{zh ? '合格系统' : 'qualified systems'}</span></div><div className="delivery-stat"><strong>{prototypeDeliveryAudit.oneOrTwoSystemDays} / {prototypeDeliveryAudit.activeBuildDays}</strong><span>{zh ? '活跃构建日保持 1–2 套' : 'build days at 1–2 systems'}</span></div><div className="delivery-stat"><strong>{prototypeDeliveryAudit.averagePerActiveDay}{zh ? '套' : ''}</strong><span>{zh ? '每个活跃构建日' : 'per active build day'}</span></div></div><p>{zh ? '按本地源码与目录首建时间重新审计：只计入有维护源码或完整演示的系统，备份、重复版本、空目录和纯构建包均排除。' : 'Re-audited from local source and directory creation dates. Only maintained source or complete demos count; backups, duplicates, empty folders, and build-only packages are excluded.'}<time className="audit-date">{zh ? `审计于 ${prototypeDeliveryAudit.auditedAt.replaceAll('-', '.')}` : `Audited ${prototypeDeliveryAudit.auditedAt}`}</time></p></aside><aside className="experience-subproject"><header><span>{text(qingyanSubproject.label)}</span><b>OTHER DELIVERY</b></header><h4>{text(qingyanSubproject.title)}</h4><p>{text(qingyanSubproject.summary)}</p><div className="tag-row">{qingyanSubproject.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></aside></div></article>
           <article className="timeline-item reveal"><time>2023.09 — 2027.06</time><div><span className="timeline-pin" /><h3>{zh ? '北京交通大学 · 人工智能' : 'Beijing Jiaotong University · Artificial Intelligence'}</h3><p>{zh ? '计算机科学与技术学院；计算机设计大赛北京市三等奖、京彩大创 OPC 大赛北京市一等奖。' : 'School of Computer Science and Technology; Beijing awards in computer design and OPC innovation competitions.'}</p></div></article>
         </div>
       </section>
 
       <section className="skills-section section-pad">
         <SectionHeading index="05" eyebrow="HOW I BUILD" title={zh ? '能力不是标签，是一条条交付链' : 'Capabilities are delivery chains, not labels'} />
+        <aside className="ai-collaboration-note reveal">
+          <div><span>MULTI-AGENT CODING</span><h3>{zh ? '我设计协作系统，而不只是调用工具。' : 'I design the collaboration system—not just invoke tools.'}</h3></div>
+          <p>{zh ? '日常以多 Coding 智能体协同推进：我负责方案设计与任务拆解，让 Codex、Claude Code、Kimi 并行实现与交叉审查，再用测试、隐私门禁和验收证据统一收口交付。' : 'I orchestrate multi-coding-agent collaboration every day: I own solution design and task decomposition, coordinate Codex, Claude Code, and Kimi for parallel implementation and cross-review, then converge through tests, privacy gates, and acceptance evidence.'}</p>
+          <div className="collaboration-flow" aria-hidden="true"><span>PLAN</span><i>→</i><span>PARALLEL BUILD</span><i>→</i><span>VERIFY</span><i>→</i><span>SHIP</span></div>
+        </aside>
         <div className="skill-board reveal">
           {[
             ['01', zh ? 'Agent Runtime' : 'Agent Runtime', 'LangGraph · State Graph · Tool Calling · HITL'],
@@ -171,9 +177,9 @@ export function HomePage() {
         <div className="contact-actions">
           {contacts.map(({ id, label, value, icon: Icon }) => {
             const copied = copiedContact === id
-            return <button className={`contact-card ${copied ? 'is-copied' : ''}`} type="button" aria-label={`${zh ? '复制' : 'Copy'}${label} ${value}`} onClick={() => void copyContact(id, value)} key={id}><Icon /><span>{label}</span><strong>{value}</strong><small>{copied ? `${label}${zh ? '已复制' : ' copied'}` : (zh ? '点击复制' : 'Click to copy')}</small>{copied ? <Check className="contact-copy-icon" /> : <Copy className="contact-copy-icon" />}</button>
+            return <button className={`contact-card ${copied ? 'is-copied' : ''}`} type="button" onClick={() => void copyContact(id, value)} key={id}><Icon /><span>{label}</span><strong>{value}</strong><small>{copied ? `${label}${zh ? '已复制' : ' copied'}` : (zh ? '点击复制' : 'Click to copy')}</small>{copied ? <Check className="contact-copy-icon" /> : <Copy className="contact-copy-icon" />}</button>
           })}
-          <a className="contact-card contact-github" href="https://github.com/anonkuki" target="_blank" rel="noreferrer" aria-label="GitHub github.com/anonkuki"><Code2 /><span>GitHub</span><strong>github.com/anonkuki</strong><small>{zh ? '查看公开仓库' : 'View public repositories'}</small><ExternalLink className="contact-copy-icon" /></a>
+          <a className="contact-card contact-github" href="https://github.com/anonkuki" target="_blank" rel="noreferrer"><Code2 /><span>GitHub</span><strong>github.com/anonkuki</strong><small>{zh ? '查看公开仓库' : 'View public repositories'}</small><ExternalLink className="contact-copy-icon" /></a>
         </div>
         <button className="back-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>↑ {zh ? '回到顶部' : 'Back to top'}</button>
         <div className="footer-line"><span>lenggujian © 2026</span><span>{zh ? '用确定性工程约束不确定性' : 'Engineering certainty around model uncertainty'}</span></div>

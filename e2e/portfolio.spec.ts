@@ -16,14 +16,21 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
   const covers = page.locator('.project-visual img')
   await expect(covers).toHaveCount(5)
   for (const cover of await covers.all()) await expect.poll(() => cover.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  const companyMarks = page.locator('.company-brand img')
+  await expect(companyMarks).toHaveCount(4)
+  for (const mark of await companyMarks.all()) {
+    await mark.scrollIntoViewIfNeeded()
+    await expect.poll(() => mark.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  }
+  await expect(page.locator('.case-blueprint-mini .blueprint-runner')).toHaveCount(2)
   await expect(page.getByText(/★/)).toHaveCount(0)
   await expect(page.getByRole('link', { name: /在线演示/ })).toHaveCount(1)
-  const emailCopy = page.getByRole('button', { name: '复制邮箱 gujianleng@gmail.com' })
+  const emailCopy = page.getByRole('button', { name: /邮箱.*gujianleng@gmail\.com.*点击复制/ })
   await expect(emailCopy).toBeVisible()
   await emailCopy.click()
   await expect(page.getByText('邮箱已复制')).toBeVisible()
-  await expect(page.getByRole('button', { name: '复制电话 17808200776' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '复制微信 ace123456787' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /电话.*17808200776.*点击复制/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /微信.*ace123456787.*点击复制/ })).toBeVisible()
   await expect(page.locator('.scroll-companion')).toHaveCount(0)
 
   const zhResume = page.getByRole('link', { name: /下载简历/ })
@@ -42,6 +49,9 @@ test('both internship flagship routes load and the tender demo completes determi
     await expect(page.getByLabel(/交互式虚拟演示|Interactive synthetic demo/)).toBeVisible()
     await expect(page.locator('.case-reference-board')).toBeVisible()
     await expect(page.locator('.case-polaroid')).toHaveCount(2)
+    const companyMark = page.locator('.case-engagement-detail .company-brand img')
+    await expect(companyMark).toHaveCount(1)
+    await expect.poll(() => companyMark.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   }
 
   await page.goto('/#/work/tender-agent-harness')
@@ -76,4 +86,10 @@ test('mobile menu opens and reaches the atlas section', async ({ page }, testInf
   await expect(page.getByRole('navigation')).toHaveClass(/is-open/)
   await page.getByRole('button', { name: '能力图谱' }).click()
   await expect(page.locator('#atlas')).toBeInViewport()
+})
+
+test('mobile first screen exposes the primary portfolio action', async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.startsWith('mobile'))
+  await page.goto('/')
+  await expect(page.getByRole('button', { name: '查看精选作品' })).toBeInViewport()
 })

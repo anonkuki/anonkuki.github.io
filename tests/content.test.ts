@@ -19,12 +19,25 @@ describe('public portfolio content contract', () => {
       title: { zh: '注册材料报告 Agent' },
     })
     expect(featuredCases.every((item) => item.organization && item.period && item.role)).toBe(true)
+    expect(featuredCases.map((item) => item.brand)).toEqual([
+      {
+        src: '/brands/qingyan-group.png',
+        alt: { zh: '清研集团官方标识', en: 'Official Tsingyan Group mark' },
+        className: 'qingyan',
+      },
+      {
+        src: '/brands/sinovac.svg',
+        alt: { zh: 'SINOVAC 科兴官方标识', en: 'Official SINOVAC mark' },
+        className: 'sinovac',
+      },
+    ])
     expect(featuredCases.every((item) => item.delivered.zh && item.impact.zh && item.patterns.zh && item.maintainability.zh)).toBe(true)
     expect(featuredCases.some((item) => item.slug === 'ai-copilot-writing-platform')).toBe(false)
   })
 
   it('publishes source-audited prototype delivery throughput without exposing project names', () => {
     expect(prototypeDeliveryAudit).toEqual({
+      auditedAt: '2026-08-24',
       qualifiedSystemCount: 37,
       activeBuildDays: 27,
       oneOrTwoSystemDays: 25,

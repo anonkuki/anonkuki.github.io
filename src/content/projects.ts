@@ -20,6 +20,7 @@ const publicMetadata = (repo: string, fallback: { language: string; demoUrl?: st
 const auditedCount = (id: keyof typeof auditSummary.groupCounts) => auditSummary.groupCounts[id]
 
 export const prototypeDeliveryAudit = {
+  auditedAt: auditSummary.auditedAt,
   qualifiedSystemCount: auditSummary.prototypeDelivery.qualifiedSystemCount,
   activeBuildDays: auditSummary.prototypeDelivery.activeBuildDays,
   oneOrTwoSystemDays: auditSummary.prototypeDelivery.oneOrTwoSystemDays,
@@ -35,6 +36,11 @@ export const featuredCases: CaseStudy[] = [
     organization: { zh: '北京清研灵智', en: 'Qingyan Lingzhi, Beijing' },
     period: { zh: '2026.03 — 2026.06', en: 'Mar 2026 — Jun 2026' },
     role: { zh: 'AI 全栈开发实习生（Agent 方向）', en: 'AI Full-stack Engineering Intern · Agent Systems' },
+    brand: {
+      src: '/brands/qingyan-group.png',
+      alt: { zh: '清研集团官方标识', en: 'Official Tsingyan Group mark' },
+      className: 'qingyan',
+    },
     summary: {
       zh: '作为项目负责人，把过去依赖十几人连续数周协作的投标材料生产，重构为 Agent 执行主流程、人在关键节点确认的端到端交付系统。',
       en: 'As project lead, I rebuilt a tender-production process that previously required 10+ people over several weeks into an end-to-end system where agents execute and people approve critical decisions.',
@@ -89,6 +95,11 @@ export const featuredCases: CaseStudy[] = [
     organization: { zh: '北京科兴', en: 'Sinovac, Beijing' },
     period: { zh: '2026.07 — 至今', en: 'Jul 2026 — Present' },
     role: { zh: 'AI 全栈应用开发实习生（智能文档 Agent 方向）', en: 'AI Full-stack Engineering Intern · Document Agents' },
+    brand: {
+      src: '/brands/sinovac.svg',
+      alt: { zh: 'SINOVAC 科兴官方标识', en: 'Official SINOVAC mark' },
+      className: 'sinovac',
+    },
     summary: {
       zh: '作为项目技术支撑，参与设计并独立开发注册材料报告智能体，把 Excel 数据到六份受控 Word 报告及 94 项审核串成可追溯的业务流水线。',
       en: 'As technical support for the project, I designed and independently developed a regulatory-report agent that connects Excel data, six controlled Word reports, and a 94-item review into one traceable workflow.',

@@ -7,6 +7,7 @@ export function CaseBlueprint({ demo }: { demo: CaseStudy['demo'] }) {
   if (demo === 'tender') {
     return (
       <figure className="case-blueprint-mini blueprint-tender" data-scene={scene} aria-hidden="true">
+        <span className="blueprint-runner" />
         <svg viewBox="0 0 600 250">
           <path className="blueprint-flow" d="M60 125H540" />
           {[72, 186, 300, 414, 528].map((x, index) => <g className="blueprint-stop" style={{ '--delay': `${index * .14}s` } as CSSProperties} key={x}><circle cx={x} cy="125" r="27" /><text x={x} y="131">{String(index + 1).padStart(2, '0')}</text></g>)}
@@ -21,6 +22,7 @@ export function CaseBlueprint({ demo }: { demo: CaseStudy['demo'] }) {
   if (demo === 'regulated') {
     return (
       <figure className="case-blueprint-mini blueprint-regulated" data-scene={scene} aria-hidden="true">
+        <span className="blueprint-runner" />
         <svg viewBox="0 0 600 250">
           <rect className="blueprint-sheet" x="56" y="38" width="195" height="174" rx="3" />
           <path className="blueprint-sheet-lines" d="M82 76H222M82 106H202M82 136H216M82 166H182" />
@@ -36,6 +38,7 @@ export function CaseBlueprint({ demo }: { demo: CaseStudy['demo'] }) {
 
   return (
     <figure className="case-blueprint-mini blueprint-writing" data-scene={scene} aria-hidden="true">
+      <span className="blueprint-runner" />
       <svg viewBox="0 0 600 250">
         <rect className="writing-sheet" x="54" y="35" width="170" height="180" rx="3" />
         <path className="writing-lines" d="M80 72H198M80 104H180M80 136H194M80 168H165" />

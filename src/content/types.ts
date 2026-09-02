@@ -18,6 +18,11 @@ export interface CaseStudy {
   organization?: LocalizedText
   period?: LocalizedText
   role?: LocalizedText
+  brand?: {
+    src: string
+    alt: LocalizedText
+    className: 'qingyan' | 'sinovac'
+  }
   summary: LocalizedText
   delivered: LocalizedText
   impact: LocalizedText

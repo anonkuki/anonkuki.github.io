@@ -16,14 +16,23 @@ export function SiteHeader() {
   const location = useLocation()
   const navigate = useNavigate()
 
+  function scrollToSection(id: string) {
+    const target = document.getElementById(id)
+    if (!target) return
+    target.scrollIntoView({ behavior: 'smooth' })
+    window.setTimeout(() => {
+      if (Math.abs(target.getBoundingClientRect().top) > 90) target.scrollIntoView({ behavior: 'smooth' })
+    }, 450)
+  }
+
   function goTo(id: string) {
     setOpen(false)
     if (location.pathname !== '/') {
       navigate('/')
-      window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 0)
+      window.setTimeout(() => scrollToSection(id), 0)
       return
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    scrollToSection(id)
   }
 
   return (

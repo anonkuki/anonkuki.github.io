@@ -16,10 +16,11 @@ function renderRoute(route = '/') {
 }
 
 describe('portfolio experience', () => {
-  it('presents the original hand-drawn intro as a decorative loading beat', () => {
-    renderRoute()
-    expect(screen.getByLabelText('作品集加载动画')).toBeInTheDocument()
-    expect(screen.getByText('assembling selected work')).toBeInTheDocument()
+  it('shows recruiter content immediately without a blocking intro overlay', () => {
+    const { container } = renderRoute()
+    expect(screen.queryByLabelText('作品集加载动画')).not.toBeInTheDocument()
+    expect(screen.queryByText('assembling selected work')).not.toBeInTheDocument()
+    expect(container.querySelector('.hero-actions')).toBeInTheDocument()
   })
 
   it('renders four cover-led cards without GitHub star counts', () => {
@@ -36,12 +37,22 @@ describe('portfolio experience', () => {
     expect(screen.getByText('Claude Code')).toBeInTheDocument()
     expect(screen.getByText('Kimi')).toBeInTheDocument()
     expect(screen.getByText(/多 Coding 智能体协同/)).toBeInTheDocument()
+    const heroActions = container.querySelector('.hero-actions')
+    const toolchain = container.querySelector('.ai-toolchain')
+    expect(heroActions).not.toBeNull()
+    expect(toolchain).not.toBeNull()
+    expect(heroActions!.compareDocumentPosition(toolchain!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(container.querySelector('.skills-section .ai-collaboration-note')).toHaveTextContent('多 Coding 智能体协同')
     expect(screen.getAllByTestId('public-project')).toHaveLength(4)
     expect(container.querySelector('.featured-collage')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: '两套真实落地 Agent，重构高成本业务流程' })).toBeInTheDocument()
     expect(container.querySelectorAll('.featured-polaroid')).toHaveLength(2)
     expect(container.querySelectorAll('.case-blueprint-mini')).toHaveLength(2)
+    expect(container.querySelectorAll('.case-blueprint-mini .blueprint-runner')).toHaveLength(2)
     expect(Array.from(container.querySelectorAll('.case-blueprint-mini')).map((node) => node.getAttribute('data-scene'))).toEqual(['tender', 'regulated'])
+    expect(container.querySelector('.hero-art')).toHaveAttribute('data-motion-surface', 'pointer-parallax')
+    expect(screen.getAllByRole('img', { name: '清研集团官方标识' })).toHaveLength(2)
+    expect(screen.getAllByRole('img', { name: 'SINOVAC 科兴官方标识' })).toHaveLength(2)
     expect(screen.getByText('02 real-world agent systems')).toBeInTheDocument()
     expect(container.querySelector('.scrapbook-stage')).toBeInTheDocument()
     expect(container.querySelectorAll('.project-polaroid')).toHaveLength(4)
@@ -72,6 +83,7 @@ describe('portfolio experience', () => {
     expect(screen.getByText('37套', { selector: '.delivery-stat strong' })).toBeInTheDocument()
     expect(screen.getByText('25 / 27', { selector: '.delivery-stat strong' })).toBeInTheDocument()
     expect(screen.getByText('1.37套', { selector: '.delivery-stat strong' })).toBeInTheDocument()
+    expect(screen.getByText('审计于 2026.08.24')).toBeInTheDocument()
     expect(container.querySelector('.experience-subproject')).toHaveTextContent('跨端现场信息协同平台')
     expect(container.querySelector('.experience-subproject')).toHaveTextContent('清研实习子项目')
     expect(screen.getByText('求职方向：AI工程应用开发/agent开发')).toBeInTheDocument()
@@ -86,16 +98,16 @@ describe('portfolio experience', () => {
     Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } })
     renderRoute()
 
-    await user.click(screen.getByRole('button', { name: '复制邮箱 gujianleng@gmail.com' }))
+    await user.click(screen.getByRole('button', { name: /邮箱.*gujianleng@gmail\.com.*点击复制/ }))
     expect(writeText).toHaveBeenLastCalledWith('gujianleng@gmail.com')
     expect(screen.getByText('邮箱已复制')).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: '复制电话 17808200776' }))
+    await user.click(screen.getByRole('button', { name: /电话.*17808200776.*点击复制/ }))
     expect(writeText).toHaveBeenLastCalledWith('17808200776')
 
-    await user.click(screen.getByRole('button', { name: '复制微信 ace123456787' }))
+    await user.click(screen.getByRole('button', { name: /微信.*ace123456787.*点击复制/ }))
     expect(writeText).toHaveBeenLastCalledWith('ace123456787')
-    expect(screen.getByRole('link', { name: 'GitHub github.com/anonkuki' })).toHaveAttribute('href', 'https://github.com/anonkuki')
+    expect(screen.getByRole('link', { name: /GitHub.*github\.com\/anonkuki.*查看公开仓库/ })).toHaveAttribute('href', 'https://github.com/anonkuki')
   })
 
   it('switches the full interface to English', async () => {
@@ -122,6 +134,7 @@ describe('portfolio experience', () => {
     expect(screen.getByText('北京清研灵智')).toBeInTheDocument()
     expect(screen.getByText('2026.03 — 2026.06')).toBeInTheDocument()
     expect(screen.getByText('AI 全栈开发实习生（Agent 方向）')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: '清研集团官方标识' })).toHaveAttribute('src', '/brands/qingyan-group.png')
     expect(container.querySelector('.case-reference-board')).toBeInTheDocument()
     expect(container.querySelectorAll('.case-polaroid')).toHaveLength(2)
     expect(container.querySelector('.case-story-copy')).toBeInTheDocument()

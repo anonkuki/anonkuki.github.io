@@ -39,6 +39,35 @@ describe('public release contract', () => {
     expect(css).not.toMatch(/stroke-dashoffset/)
   })
 
+  it('adds progressive motion with a complete reduced-motion escape hatch', async () => {
+    const css = await readFile(path.join(root, 'src', 'styles.css'), 'utf8')
+    expect(css).toContain('offset-path:')
+    expect(css).toContain('animation-timeline: view()')
+    expect(css).toMatch(/prefers-reduced-motion:\s*reduce[\s\S]*\.blueprint-runner\s*\{[^}]*display:\s*none/)
+    expect(css).toMatch(/prefers-reduced-motion:\s*reduce[\s\S]*\.portrait-frame\s*\{[^}]*transform:\s*none/)
+  })
+
+  it('prioritizes first-screen content and defers below-fold layout work', async () => {
+    const app = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
+    const css = await readFile(path.join(root, 'src', 'styles.css'), 'utf8')
+    expect(app).not.toContain('IntroOverlay')
+    expect(css).toMatch(/content-visibility:\s*auto/)
+    expect(css).toMatch(/contain-intrinsic-size:/)
+  })
+
+  it('uses a clean build so GitHub Pages cannot accumulate stale hash assets', async () => {
+    const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8')) as { scripts: Record<string, string> }
+    const cleanScript = await readFile(path.join(root, 'scripts', 'clean-dist.mjs'), 'utf8')
+    expect(packageJson.scripts.prebuild).toBe('node scripts/clean-dist.mjs')
+    expect(cleanScript).toContain("rm(dist, { recursive: true, force: true })")
+  })
+
+  it('isolates acceptance from unrelated localhost services instead of reusing a foreign server', async () => {
+    const playwrightConfig = await readFile(path.join(root, 'playwright.config.ts'), 'utf8')
+    expect(playwrightConfig).toContain("process.env.PORTFOLIO_E2E_PORT ?? '4317'")
+    expect(playwrightConfig).toContain('reuseExistingServer: false')
+  })
+
   it('pins the approved resume exception to the uploaded PDF hash', async () => {
     const scanner = await readFile(path.join(root, 'scripts', 'privacy-scan.mjs'), 'utf8')
     expect(scanner).toContain(approvedResumeSha256)

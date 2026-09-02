@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowUpRight, Boxes, CircleCheckBig, ShieldCheck, TimerReset, Workflow, Wrench } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
+import { CompanyBrand } from '../components/CompanyBrand'
 import { featuredCases } from '../content/projects'
 import { CaseDemo } from '../features/demos/CaseDemo'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -30,7 +31,7 @@ export function CasePage() {
           </div>
           <div className="case-story-copy">
             <p className="eyebrow">CASE {item.index} · {text(item.eyebrow)}</p>
-            {item.organization && item.period && item.role && <div className="case-engagement case-engagement-detail"><strong>{text(item.organization)}</strong><span>{text(item.period)}</span><small>{text(item.role)}</small></div>}
+            {item.organization && item.period && item.role && <div className="case-engagement case-engagement-detail">{item.brand && <CompanyBrand brand={item.brand} />}<strong>{text(item.organization)}</strong><span>{text(item.period)}</span><small>{text(item.role)}</small></div>}
             <h1>{text(item.title)}</h1>
             <p className="case-question">{question}</p>
             <p className="case-lead">{text(item.summary)}</p>
