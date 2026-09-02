@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowRight, Check, Code2, Copy, ExternalLink, Mail, MessageCircle, Phone, Sparkles } from 'lucide-react'
+import { ArrowDownRight, ArrowRight, Award, Check, Code2, Copy, ExternalLink, Mail, MessageCircle, Phone, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CapabilityConstellation } from '../components/CapabilityConstellation'
@@ -120,6 +120,7 @@ export function HomePage() {
               <ProjectVisual project={project} language={language} />
               <div className="public-card-copy">
                 <span className="repo-meta">{project.language} · {project.visibility === 'local' ? (zh ? '本地完整项目' : 'complete local project') : `${String(project.repositories.length).padStart(2, '0')} ${zh ? '个仓库' : project.repositories.length === 1 ? 'repository' : 'repositories'}`}</span>
+                {project.highlight && <p className="project-highlight"><Award size={15} />{text(project.highlight)}</p>}
                 <h3>{text(project.title)}</h3>
                 <p>{text(project.description)}</p>
                 <div className="tag-row">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>

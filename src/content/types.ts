@@ -44,6 +44,7 @@ export interface PublicProject {
   visibility: 'public' | 'local'
   title: LocalizedText
   description: LocalizedText
+  highlight?: LocalizedText
   language: string
   tags: string[]
   covers: Array<{

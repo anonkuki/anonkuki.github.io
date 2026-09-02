@@ -7,11 +7,12 @@ test('home, language, public work, contact, and resume are reachable', async ({ 
   await expect(page.getByText('200亿+', { exact: true })).toBeVisible()
   await expect(page.locator('.featured-list').getByText('北京清研灵智', { exact: true })).toBeVisible()
   await expect(page.locator('.featured-list').getByText('北京科兴', { exact: true })).toBeVisible()
-  await expect(page.getByTestId('public-project')).toHaveCount(4)
+  await expect(page.getByTestId('public-project')).toHaveCount(5)
   await expect(page.locator('.scrapbook-stage')).toHaveCount(1)
-  await expect(page.locator('.project-polaroid')).toHaveCount(4)
+  await expect(page.locator('.project-polaroid')).toHaveCount(5)
   await expect(page.getByText('多邻班 · AI 校园题库共创平台')).toBeVisible()
-  await expect(page.getByText('佐佑动漫社 · 双站作品集')).toBeVisible()
+  await expect(page.getByText('佐佑动漫社 · 星际年度报告')).toBeVisible()
+  await expect(page.getByText('佐佑动漫社 · 冒险者公会')).toBeVisible()
   for (const card of await page.getByTestId('public-project').all()) await card.scrollIntoViewIfNeeded()
   const covers = page.locator('.project-visual img')
   await expect(covers).toHaveCount(5)
@@ -101,4 +102,17 @@ test('mobile first screen exposes the primary portfolio action', async ({ page }
   test.skip(!testInfo.project.name.startsWith('mobile'))
   await page.goto('/')
   await expect(page.getByRole('button', { name: '查看精选作品' })).toBeInViewport()
+})
+
+test('every public project card stays inside the scrapbook canvas', async ({ page }) => {
+  await page.goto('/')
+  const stage = await page.locator('.scrapbook-stage').boundingBox()
+  const cards = await page.locator('.project-polaroid').all()
+  expect(stage).not.toBeNull()
+  expect(cards).toHaveLength(5)
+  for (const card of cards) {
+    const box = await card.boundingBox()
+    expect(box).not.toBeNull()
+    expect(box!.y + box!.height).toBeLessThanOrEqual(stage!.y + stage!.height)
+  }
 })

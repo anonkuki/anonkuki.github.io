@@ -46,10 +46,11 @@ describe('public portfolio content contract', () => {
     expect(auditSummary.prototypeDelivery.basis).toContain('maintained source or complete demo')
   })
 
-  it('presents four cover-led cards while preserving five approved repository links', () => {
+  it('presents the two long-running club sites as independent project cards', () => {
     expect(publicProjects.map((item) => item.repo)).toEqual([
       'AI-Copilot-Writing-Platform',
-      'zuoyou-club-sites',
+      'Zuoyou-Anime-Club-2025-Annual-Summary',
+      'zuoyou_web',
       'manchu-degradation-simulator',
       'duolinban-campus',
     ])
@@ -61,17 +62,30 @@ describe('public portfolio content contract', () => {
       'duolinban-campus',
     ])
     expect(publicProjects.every((item) => item.covers?.length)).toBe(true)
-    const clubSites = publicProjects.find((item) => item.repo === 'zuoyou-club-sites')
-    expect(clubSites?.repositories).toHaveLength(2)
-    expect(clubSites?.links.map((link) => link.demoUrl)).toEqual([
-      'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/',
-      'http://62.234.83.174:8080/',
-    ])
+    const annualReport = publicProjects.find((item) => item.repo === 'Zuoyou-Anime-Club-2025-Annual-Summary')
+    const guild = publicProjects.find((item) => item.repo === 'zuoyou_web')
+    expect(annualReport).toMatchObject({
+      repositories: ['Zuoyou-Anime-Club-2025-Annual-Summary'],
+      title: { zh: '佐佑动漫社 · 星际年度报告' },
+      links: [{ demoUrl: 'https://anonkuki.github.io/Zuoyou-Anime-Club-2025-Annual-Summary/' }],
+    })
+    expect(guild).toMatchObject({
+      repositories: ['zuoyou_web'],
+      title: { zh: '佐佑动漫社 · 冒险者公会' },
+      links: [{ demoUrl: 'http://62.234.83.174:8080/' }],
+    })
     expect(new Set(githubSnapshot.repositories.map((item) => item.repo)).size).toBe(4)
     expect(githubSnapshot.repositories.some((item) => item.repo === 'OPC-TEST')).toBe(false)
     expect(githubSnapshot.repositories.some((item) => item.repo === 'duolinban-campus')).toBe(false)
     expect(publicProjects.find((item) => item.repo === 'duolinban-campus')).toMatchObject({ visibility: 'local', links: [] })
     expect(publicProjects.some((item) => item.repo === 'my-anime-rank')).toBe(false)
+  })
+
+  it('presents the Manchu project as an awarded model-training practice', () => {
+    const manchu = publicProjects.find((item) => item.repo === 'manchu-degradation-simulator')
+    expect(manchu?.highlight?.zh).toContain('北京市大学生创新创业大赛市级奖项')
+    expect(manchu?.description.zh).toContain('模型训练')
+    expect(manchu?.tags).toEqual(expect.arrayContaining(['Model Training', 'Data Augmentation']))
   })
 
   it('defines six anonymized capability groups with positive audited counts', () => {
